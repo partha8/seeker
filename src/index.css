@@ -1,13 +1,145 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap");
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --font-color-light: #f8f9fd;
+  --font-color-unselected: var(--clr-grey-50);
+  --font-color-dark: var(--clr-grey-900);
+
+  --font-color-tint1: var(--clr-grey-600);
+  --font-color-tint2: var(--clr-grey-400);
+
+  --border-color: var(--clr-grey-40);
+  --bg-color: #121212;
+  --secondary-color: #1f1f1f;
+  --secondary-color-a6: rgba(31, 31, 31, 0.6);
+  --card-color: #2e2e2e;
+  --light-card-color: #F2F2F2;
+  --quaternary-color: #333333;
+  --hover-color: #363636;
+
+  --primary-color: #1d9bf0;
+  --danger-color: #ff0000;
+  --warning-color: #fade53;
+
+  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+
+  --transition-one: all 0.4s linear;
+  --transition-two: 0.3s ease-in-out all;
+  --borderRadius: 10px;
+  --letterSpacing: 1px;
+  --max-width: 1120px;
+  --fixed-width: 500px;
+  --fluid-width: 90vw;
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 90%;
+  }
+}
+
+a {
+  background: transparent;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+body {
+  font-family: "Roboto", Arial, Helvetica, sans-serif, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-color);
+  color: var(--font-color-light);
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--bg-color);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: var(--font-color-light);
+}
+
+.flex-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.loading-component {
+  margin: 2rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hover-animation {
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  border-radius: 100%;
+  padding: 0.75rem 1rem;
+  transition: 0.2s ease-out;
+}
+
+.hover-animation:hover {
+  background: #d9d9d9;
+  opacity: 0.1;
+}
+
+.icon {
+  cursor: pointer;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  transition: ease-out;
+}
+
+.icon:hover {
+  background: var(--primary-color);
+  opacity: 0.1;
+}
+
+@media screen and (max-width:1280px) {
+  .hover-animation {
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0;
+  }
 }
