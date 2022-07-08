@@ -4,11 +4,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route } from "react-router-dom";
 import { Feed, Login, Signup } from "./pages";
-import { RequireAuth } from "./components";
-
+import { Navbar, RequireAuth } from "./components";
+import { useGetAllUser } from "./hooks/useGetAllUser";
 
 export const App = () => {
   useAuthObserver();
+  useGetAllUser();
 
   return (
     <>
@@ -23,6 +24,7 @@ export const App = () => {
         draggable
         pauseOnHover
       />
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

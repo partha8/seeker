@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { signup } from "../../features/authSlice";
 import styles from "./auth.module.css";
 
 export const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [matchPassword, setMatchPassword] = useState("");
@@ -14,6 +15,7 @@ export const Signup = () => {
   const [errMsg, setErrMsg] = useState("");
 
   const dispatch = useAppDispatch();
+  const { allUsers } = useAppSelector((store) => store.auth);
 
   useEffect(() => {
     setValidMatch(password === matchPassword);
@@ -21,12 +23,28 @@ export const Signup = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [password, matchPassword, email]);
+  }, [password, matchPassword, email, userName]);
 
   const submitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(signup({ email, password, firstName, lastName }));
+    dispatch(signup({ email, password, firstName, lastName, userName }));
   };
+
+  useEffect(() => {
+    let timeout: any;
+    if (userName) {
+      timeout = setTimeout(() => {
+        const userExists = allUsers.some((user) => {
+          return user.userName.toLowerCase() === userName.toLowerCase();
+        });
+        if (userExists) {
+          setErrMsg("User already Exists");
+        }
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [userName]);
 
   return (
     <section className={styles.formBox}>
@@ -64,6 +82,21 @@ export const Signup = () => {
           />
           <label htmlFor="lastName" className="flex-center">
             Last Name
+          </label>
+        </div>
+
+        {/* username */}
+        <div className={styles.inputBox}>
+          <input
+            type="text"
+            id="userName"
+            onChange={(e) => setUserName(e.target.value)}
+            autoComplete="off"
+            value={userName}
+            required
+          />
+          <label htmlFor="lastName" className="flex-center">
+            User Name
           </label>
         </div>
 

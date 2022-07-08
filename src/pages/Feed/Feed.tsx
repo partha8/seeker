@@ -1,5 +1,11 @@
-import React from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase.config";
+import styles from "./feed.module.css";
 
 export const Feed = () => {
-  return <div>Feed</div>;
+  return (
+    <>
+      <button onClick={() => signOut(auth)}>Logout</button>
+    </>
+  );
 };

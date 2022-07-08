@@ -12,11 +12,12 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { toast } from "react-toastify";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import { setDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
 
 const initialState: AuthState = {
   userDetails: null,
   id: "",
+  allUsers: [],
 };
 
 export const login = createAsyncThunk(
@@ -34,7 +35,10 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   "auth/signup",
-  async ({ email, password, firstName, lastName }: SignupDetails, thunkAPI) => {
+  async (
+    { email, password, firstName, lastName, userName }: SignupDetails,
+    thunkAPI
+  ) => {
     try {
       toast.info("Signing up, wait a few seconds");
 
@@ -50,6 +54,7 @@ export const signup = createAsyncThunk(
       await setDoc(doc(db, "users", auth.currentUser!.uid), {
         displayName: auth.currentUser!.displayName,
         email: auth.currentUser!.email,
+        userName: userName,
       });
     } catch (error: any) {
       toast.error(error.message);
@@ -78,6 +83,9 @@ const authSlice = createSlice({
     setUser(state, action) {
       state.id = action.payload;
     },
+    setAllUsers(state, action) {
+      state.allUsers = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(getUserDetails.fulfilled, (state, action) => {
@@ -86,6 +94,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setAllUsers } = authSlice.actions;
 
 export default authSlice.reducer;

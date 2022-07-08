@@ -3,9 +3,17 @@ export type UserDetails = {
   email: string;
 };
 
+export type OtherUsers = {
+  displayName: string;
+  // photo: string;
+  userName: string;
+  id: string;
+};
+
 export type AuthState = {
   userDetails: UserDetails | null;
   id: string;
+  allUsers: OtherUsers[];
 };
 
 export type LoginDetails = {
@@ -18,4 +26,5 @@ export type SignupDetails = {
   password: string;
   firstName: string;
   lastName: string;
+  userName: string;
 };
