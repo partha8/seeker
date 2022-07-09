@@ -55,6 +55,9 @@ export const signup = createAsyncThunk(
         displayName: auth.currentUser!.displayName,
         email: auth.currentUser!.email,
         userName: userName,
+        photo: null,
+        followers: [],
+        posts: [],
       });
     } catch (error: any) {
       toast.error(error.message);

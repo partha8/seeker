@@ -1,0 +1,43 @@
+.sidebar {
+    padding:  1rem;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100vh - 4.5rem);
+    position: sticky;
+    top: 4.5rem;
+    font-size: 1.3rem;
+    background: var(--secondary-color);
+}
+
+.aside>* {
+    cursor: pointer;
+}
+
+.asideLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.asideLinks>* {
+    display: flex;
+    align-items: center;
+    color: var(--font-color-light);
+    gap: 10px;
+
+}
+
+.active {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    border-radius: 10px;
+}
+
+.post {
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+}

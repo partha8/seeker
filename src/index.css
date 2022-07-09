@@ -28,7 +28,7 @@
   --danger-color: #ff0000;
   --warning-color: #fade53;
 
-  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --light-shadow: 0 5px 15px rgba(165, 165, 165, 0.1);
   --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 
   --transition-one: all 0.4s linear;
@@ -72,6 +72,12 @@ body {
 .container {
   display: flex;
   height: 100%;
+  gap: 10px;
+}
+
+.btn {
+  border-radius: 10px;
+  background-color: var(--primary-color);
 }
 
 ::-webkit-scrollbar {
@@ -120,21 +126,20 @@ body {
   opacity: 0.1;
 }
 
-.icon {
+.icon-action {
   cursor: pointer;
-  width: 2.25rem;
-  height: 2.25rem;
   display: flex;
-  justify-content: center;
   align-items: center;
-  border-radius: 100%;
+  gap: 5px;
+  border-radius: 10px;
+  padding: 0 0.5rem;
   transition: ease-out;
 }
 
-.icon:hover {
-  background: var(--primary-color);
-  opacity: 0.1;
+.icon-action:hover {
+  background: hsla(204, 88%, 53%, 0.2);
 }
+
 
 @media screen and (max-width:1280px) {
   .hover-animation {
@@ -142,4 +147,16 @@ body {
     height: 3.25rem;
     padding: 0;
   }
+}
+
+.main-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-standard {
+  width: 2.5rem;
+  height: 2.5rem;
 }
