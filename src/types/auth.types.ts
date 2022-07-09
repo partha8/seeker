@@ -1,6 +1,12 @@
 export type UserDetails = {
   displayName: string;
   email: string;
+  userName: string;
+  photo: string;
+  followers: {
+    id: string;
+  }[];
+  posts: any;
 };
 
 export type OtherUsers = {

@@ -1,0 +1,46 @@
+.postContainer {
+    box-shadow: var(--light-shadow);
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    width: 35rem;
+}
+
+.postAccountDetails,
+.post,
+.buttons {
+    padding: 0.5rem;
+
+}
+
+.postAccountDetails {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.postAccountDetails>* {
+    cursor: pointer;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+}
+
+.displayName {
+    font-weight: bold;
+}
+
+.userName,
+.time {
+    font-size: 0.8rem;
+    display: flex;
+}
+
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+}
