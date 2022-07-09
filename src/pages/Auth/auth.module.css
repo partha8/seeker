@@ -1,0 +1,111 @@
+.formBox {
+    width: 30rem;
+    padding: 3rem;
+    background: var(--secondary-color);
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--font-color-light);
+    margin: 2rem auto;
+}
+
+.formBox h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: var(--font-color-light);
+    text-align: center;
+}
+
+.formBox .inputBox {
+    position: relative;
+    margin-bottom: 2rem;
+    border: 1px solid white;
+    padding: 1rem 0.5rem;
+}
+
+.formBox .inputBox input {
+    width: 100%;
+    font-size: 1rem;
+    color: var(--font-color-light);
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.formBox .inputBox label {
+    position: absolute;
+    top: 0;
+    left: 0.5rem;
+    padding: 1rem 0.5rem;
+    font-size: 1rem;
+    color: var(--font-color-light);
+    opacity: 0.8;
+    pointer-events: none;
+    transition: .2s;
+}
+
+.formBox .inputBox input:focus~label,
+.formBox .inputBox input:valid~label {
+    top: -25px;
+    left: 5px;
+
+    opacity: 1;
+    background: var(--secondary-color);
+    padding: 1rem 0.5rem 0;
+}
+
+.actionLinks>* {
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    color: var(--font-color-light);
+
+}
+
+.formBox button {
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+}
+
+.offscreen {
+    display: none;
+}
+
+.formBox p {
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.formBox .instructions {
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    background: #343434;
+    color: #fff;
+    padding: 0.5rem;
+}
+
+.formBox .hide {
+    display: none;
+}
+
+.formBox .valid {
+    color: limegreen;
+    margin-left: 0.5rem;
+}
+
+.formBox .invalid {
+    color: red;
+    margin-left: 0.5rem;
+}
+
+.formBox .errmsg {
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
