@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { addNewPost, setPostModal } from "../../features/postsSlice";
+import {
+  addNewPost,
+  editSelectedPost,
+  setEditPost,
+  setPostModal,
+} from "../../features/postsSlice";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import styles from "./input.module.css";
 
 export const InputModal = () => {
   const [input, setInput] = useState("");
 
-  const { postModal } = useAppSelector((store) => store?.posts);
+  const { postModal, editPost } = useAppSelector((store) => store?.posts);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (editPost) {
+      setInput(editPost.postDescription);
+    } else {
+      setInput("");
+    }
+  }, [editPost]);
 
   const domNode = useClickOutside(() => dispatch(setPostModal(false)));
 
@@ -32,7 +45,11 @@ export const InputModal = () => {
         <section className={styles.btnContainer}>
           <button
             onClick={() => {
-              dispatch(addNewPost(input));
+              if (editPost) {
+                dispatch(editSelectedPost({ input, postID: editPost.postID }));
+              } else {
+                dispatch(addNewPost(input));
+              }
               setInput("");
             }}
             className="btn"
@@ -43,6 +60,7 @@ export const InputModal = () => {
             onClick={() => {
               dispatch(setPostModal(false));
               setInput("");
+              dispatch(setEditPost(null));
             }}
             className="btn btn-outline"
           >

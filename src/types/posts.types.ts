@@ -21,4 +21,5 @@ export type PostState = {
   explorePosts: Posts[];
   explorePostsLoading: boolean;
   postModal: boolean;
+  editPost: Posts | null;
 };
