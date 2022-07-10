@@ -10,7 +10,7 @@ import { FaRegComment } from "react-icons/fa";
 export const PostCard = (prop: Posts) => {
   const {
     comments,
-    createdAt,
+    // createdAt,
     displayName,
     likes,
     photo,
@@ -20,7 +20,11 @@ export const PostCard = (prop: Posts) => {
     userName,
   } = prop;
 
-  const time = moment(createdAt.toDate()).fromNow();
+  // const time = createdAt ? moment(createdAt.toDate()).fromNow() : null;
+  // let time;
+  // if (createdAt) {
+  //   time = moment(createdAt?.toDate()).fromNow();
+  // }
 
   const [openCommentSection, setOpenCommentSection] = useState(false);
 
@@ -38,7 +42,7 @@ export const PostCard = (prop: Posts) => {
         )}
         <p className={styles.displayName}>{displayName}</p>
         <span className={styles.userName}>@{userName}</span>
-        <span className={styles.time}>{time}</span>
+        {/* <span className={styles.time}>{time}</span> */}
       </section>
 
       <section className={styles.post}>
@@ -47,10 +51,10 @@ export const PostCard = (prop: Posts) => {
 
       <section className={styles.buttons}>
         <span className="icon-action">
-          <BsHeart /> 2
+          <BsHeart /> {likes.length}
         </span>
         <span className="icon-action">
-          <FaRegComment /> 2
+          <FaRegComment /> {comments.length}
         </span>
       </section>
     </div>

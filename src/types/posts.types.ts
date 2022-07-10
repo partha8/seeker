@@ -20,4 +20,5 @@ export type PostState = {
   feedPostsLoading: boolean;
   explorePosts: Posts[];
   explorePostsLoading: boolean;
+  postModal: boolean;
 };

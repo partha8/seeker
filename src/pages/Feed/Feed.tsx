@@ -21,10 +21,14 @@ export const Feed = () => {
       <div className="container">
         <Sidebar />
         <main className="main-container">
-          {feedPostsLoading && <h2>Loading...</h2>}
-          {feedPosts.map((post) => {
-            return <PostCard key={post.postID} {...post} />;
-          })}
+          {feedPostsLoading ? (
+            <h2>Loading...</h2>
+          ) : (
+            feedPosts?.map((post) => {
+              return <PostCard key={post.postID} {...post} />;
+            })
+          )}
+          
         </main>
       </div>
     </div>

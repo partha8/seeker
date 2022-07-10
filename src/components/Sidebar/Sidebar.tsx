@@ -2,8 +2,11 @@ import { NavLink } from "react-router-dom";
 import styles from "./sidebar.module.css";
 import { MdOutlineFeed, MdExplore, MdPeopleAlt } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
+import { useAppDispatch } from "../../app/hooks";
+import { setPostModal } from "../../features/postsSlice";
 
 export const Sidebar = () => {
+  const dispatch = useAppDispatch();
   return (
     <aside className={styles.sidebar}>
       <div className={styles.asideLinks}>
@@ -35,7 +38,12 @@ export const Sidebar = () => {
           <BsPersonCircle /> My Profile
         </NavLink>
       </div>
-      <button className={`btn ${styles.post}`}>Post</button>
+      <button
+        onClick={() => dispatch(setPostModal(true))}
+        className={`btn ${styles.post}`}
+      >
+        Post
+      </button>
     </aside>
   );
 };
