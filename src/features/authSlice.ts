@@ -57,6 +57,7 @@ export const signup = createAsyncThunk(
         userName: userName,
         photo: null,
         followers: [],
+        following: [],
         posts: [],
       });
     } catch (error: any) {

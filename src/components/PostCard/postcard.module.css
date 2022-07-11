@@ -4,6 +4,7 @@
     flex-direction: column;
     margin-top: 0.5rem;
     width: 35rem;
+    position: relative;
 }
 
 .postAccountDetails,

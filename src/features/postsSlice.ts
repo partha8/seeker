@@ -5,8 +5,10 @@ import {
 } from "@reduxjs/toolkit";
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -27,6 +29,7 @@ const initialState: PostState = {
   explorePosts: [],
   explorePostsLoading: false,
   postModal: false,
+  editPost: null,
 };
 
 export const getFeedPosts = createAsyncThunk(
@@ -102,13 +105,45 @@ export const addNewPost = createAsyncThunk(
   }
 );
 
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async (postID: string, thunkAPI) => {
+    const { auth } = store.getState();
+    try {
+      await deleteDoc(doc(db, "posts", postID));
+      await updateDoc(doc(db, "users", auth.id), {
+        posts: arrayRemove(postID),
+      });
+      return postID;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const editSelectedPost = createAsyncThunk(
+  "posts/editSelectedPost",
+  async ({ input, postID }: any, thunkAPI) => {
+    try {
+      await updateDoc(doc(db, "posts", postID), {
+        postDescription: input,
+      });
+      return { input, postID } as any;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
     setPostModal(state, action) {
       state.postModal = action.payload;
-      console.log(action.payload);
+    },
+    setEditPost(state, action) {
+      state.editPost = action.payload;
     },
   },
   extraReducers(builder) {
@@ -120,13 +155,32 @@ const postsSlice = createSlice({
         state.feedPosts = action.payload;
         state.feedPostsLoading = false;
       })
+
+      // add a new post
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.feedPosts = action.payload;
+        state.postModal = false;
+      })
+
+      // delete post
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.feedPosts = state.feedPosts.filter(
+          (post) => post.postID !== action.payload
+        );
+      })
+
+      .addCase(editSelectedPost.fulfilled, (state, action) => {
+        state.feedPosts = state.feedPosts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return { ...post, postDescription: action.payload.input };
+          }
+          return post;
+        });
         state.postModal = false;
       });
   },
 });
 
-export const { setPostModal } = postsSlice.actions;
+export const { setPostModal, setEditPost } = postsSlice.actions;
 
 export default postsSlice.reducer;

@@ -6,6 +6,7 @@ import moment from "moment";
 import { useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
+import { DropDown } from "../DropDown/DropDown";
 
 export const PostCard = (prop: Posts) => {
   const {
@@ -43,6 +44,7 @@ export const PostCard = (prop: Posts) => {
         <p className={styles.displayName}>{displayName}</p>
         <span className={styles.userName}>@{userName}</span>
         {/* <span className={styles.time}>{time}</span> */}
+        <DropDown {...prop} />
       </section>
 
       <section className={styles.post}>

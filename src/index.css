@@ -166,3 +166,34 @@ body {
   width: 2.5rem;
   height: 2.5rem;
 }
+
+.menu {
+  margin-left: auto;
+}
+
+.menu-btn {
+  margin-top: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.dropdown {
+  position: absolute;
+  right: 1.5rem;
+  top: 2.5rem;
+  z-index: 2;
+  background: var(--secondary-color);
+}
+
+.item {
+  border: none;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.item:hover {
+  background: var(--hover-color);
+}
