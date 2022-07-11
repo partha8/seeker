@@ -6,7 +6,12 @@ export type UserDetails = {
   followers: {
     id: string;
   }[];
-  posts: any;
+  following: {
+    id: string;
+  }[];
+  posts: {
+    postID: string;
+  }[];
 };
 
 export type OtherUsers = {

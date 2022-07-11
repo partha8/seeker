@@ -80,6 +80,12 @@ body {
   background-color: var(--primary-color);
 }
 
+.btn-outline {
+  background: none;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
