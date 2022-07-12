@@ -4,3 +4,4 @@ export { Sidebar } from "./Sidebar/Sidebar";
 export { PostCard } from "./PostCard/PostCard";
 export { InputModal } from "./InputModal/InputModal";
 export { DropDown } from "./DropDown/DropDown";
+export { CommentsSection } from "./CommentsContainer/CommentsSection";

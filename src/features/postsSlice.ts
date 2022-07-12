@@ -135,6 +135,48 @@ export const editSelectedPost = createAsyncThunk(
   }
 );
 
+export const handleLike = createAsyncThunk(
+  "posts/handleLike",
+  async (postID: string, thunkAPI) => {
+    const { auth } = store.getState();
+    try {
+      const likedPostExists = auth.userDetails?.likedPosts.some(
+        (post) => post === postID
+      );
+      await updateDoc(doc(db, "users", auth.id), {
+        likedPosts: likedPostExists ? arrayRemove(postID) : arrayUnion(postID),
+      });
+      await updateDoc(doc(db, "posts", postID), {
+        likes: likedPostExists ? arrayRemove(auth.id) : arrayUnion(auth.id),
+      });
+      return { likedPostExists, postID, uid: auth.id };
+    } catch (error: any) {
+      toast.error(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addComment = createAsyncThunk(
+  "posts/addComment",
+  async ({ comment, postID }: any, thunkAPI) => {
+    const { auth } = store.getState();
+    try {
+      const newComment = {
+        uid: auth.id,
+        comment,
+      };
+      await updateDoc(doc(db, "posts", postID), {
+        comments: arrayUnion(newComment),
+      });
+      return { postID, newComment };
+    } catch (error: any) {
+      toast.error(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -169,6 +211,7 @@ const postsSlice = createSlice({
         );
       })
 
+      // edit post
       .addCase(editSelectedPost.fulfilled, (state, action) => {
         state.feedPosts = state.feedPosts.map((post) => {
           if (post.postID === action.payload.postID) {
@@ -177,6 +220,34 @@ const postsSlice = createSlice({
           return post;
         });
         state.postModal = false;
+      })
+
+      // handle like
+      .addCase(handleLike.fulfilled, (state, action) => {
+        state.feedPosts = state.feedPosts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return {
+              ...post,
+              likes: action.payload.likedPostExists
+                ? post.likes.filter((user) => user !== action.payload.uid)
+                : [...post.likes, action.payload.uid],
+            };
+          }
+          return post;
+        });
+      })
+
+      // add a comment
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.feedPosts = state.feedPosts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return {
+              ...post,
+              comments: [...post.comments, action.payload.newComment],
+            };
+          }
+          return post;
+        });
       });
   },
 });

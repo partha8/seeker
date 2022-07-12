@@ -2,22 +2,19 @@ export type UserDetails = {
   displayName: string;
   email: string;
   userName: string;
-  photo: string;
-  followers: {
-    id: string;
-  }[];
-  following: {
-    id: string;
-  }[];
-  posts: {
-    postID: string;
-  }[];
+  photo: string | null;
+  followers: string[];
+  following: string[];
+  posts: string[];
+  likedPosts: string[];
+  bookmarkedPosts: string[];
 };
 
 export type OtherUsers = {
   displayName: string;
-  // photo: string;
+  email: string;
   userName: string;
+  photo: string | null;
   id: string;
 };
 

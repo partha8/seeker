@@ -7,6 +7,9 @@ import { useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { DropDown } from "../DropDown/DropDown";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { handleLike } from "../../features/postsSlice";
+import { CommentsSection } from "../CommentsContainer/CommentsSection";
 
 export const PostCard = (prop: Posts) => {
   const {
@@ -27,7 +30,9 @@ export const PostCard = (prop: Posts) => {
   //   time = moment(createdAt?.toDate()).fromNow();
   // }
 
-  const [openCommentSection, setOpenCommentSection] = useState(false);
+  const { id } = useAppSelector((store) => store.auth);
+  const dispatch = useAppDispatch();
+  const [openCommentsSection, setOpenCommentsSection] = useState(false);
 
   return (
     <div className={styles.postContainer}>
@@ -52,13 +57,23 @@ export const PostCard = (prop: Posts) => {
       </section>
 
       <section className={styles.buttons}>
-        <span className="icon-action">
-          <BsHeart /> {likes.length}
+        <span
+          onClick={() => dispatch(handleLike(postID))}
+          className="icon-action"
+        >
+          {likes.some((user) => user === id) ? <BsHeartFill /> : <BsHeart />}
+          {likes.length}
         </span>
-        <span className="icon-action">
+        <span
+          onClick={() => setOpenCommentsSection(!openCommentsSection)}
+          className="icon-action"
+        >
           <FaRegComment /> {comments.length}
         </span>
       </section>
+      {openCommentsSection && (
+        <CommentsSection postID={postID} comments={comments} />
+      )}
     </div>
   );
 };
