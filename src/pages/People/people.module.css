@@ -1,0 +1,15 @@
+.userContainer {
+    box-shadow: var(--light-shadow);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    width: 35rem;
+    position: relative;
+}
+
+.userContainer button {
+    margin-left: auto;
+}

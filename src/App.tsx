@@ -3,7 +3,7 @@ import { useAuthObserver } from "./hooks/useAuthObserver";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route } from "react-router-dom";
-import { Feed, Login, Signup } from "./pages";
+import { Feed, Login, People, Signup } from "./pages";
 import { InputModal, Navbar, RequireAuth } from "./components";
 import { useGetAllUser } from "./hooks/useGetAllUser";
 
@@ -31,6 +31,7 @@ export const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Feed />} />
+          <Route path="/people" element={<People />} />
         </Route>
       </Routes>
     </>

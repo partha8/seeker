@@ -4,7 +4,7 @@ export type UserDetails = {
   userName: string;
   photo: string | null;
   followers: string[];
-  following: string[];
+  following: string[] ;
   posts: string[];
   likedPosts: string[];
   bookmarkedPosts: string[];
@@ -16,6 +16,11 @@ export type OtherUsers = {
   userName: string;
   photo: string | null;
   id: string;
+  followers: string[];
+  following: string[];
+  posts: string[];
+  likedPosts: string[];
+  bookmarkedPosts: string[];
 };
 
 export type AuthState = {
