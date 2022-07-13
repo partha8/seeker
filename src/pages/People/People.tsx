@@ -7,7 +7,6 @@ import styles from "./people.module.css";
 export const People = () => {
   const { allUsers, id, userDetails } = useAppSelector((store) => store.auth);
   const otherUsers = allUsers.filter((user) => user.id !== id);
-  console.log(otherUsers);
   const dispatch = useAppDispatch();
   return (
     <div>
