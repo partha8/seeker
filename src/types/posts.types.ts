@@ -4,9 +4,7 @@ export type Posts = {
     comment: string;
   }[];
   createdAt: any;
-  likes: {
-    uid: string;
-  }[];
+  likes: string[];
   postDescription: string;
   uid: string;
   displayName: string;

@@ -167,6 +167,11 @@ body {
   height: 2.5rem;
 }
 
+.avatar-small {
+  width: 2rem;
+  height: 2rem;
+}
+
 .menu {
   margin-left: auto;
 }

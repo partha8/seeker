@@ -1,0 +1,65 @@
+.container {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.input {
+    background: var(--secondary-color);
+    border: none;
+    outline: none;
+    color: var(--font-color-light);
+    height: 100%;
+    width: 80%;
+    margin-right: auto;
+    padding: 0.5rem;
+}
+
+.postComment {
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+
+.commentContainer {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 0;
+}
+
+.postAccountDetails {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.postAccountDetails>* {
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+}
+
+.displayName {
+    font-weight: bold;
+}
+
+.userName {
+    font-size: 0.8rem;
+    display: flex;
+}
+
+.post {
+    padding: 0.5rem 0 0;
+}

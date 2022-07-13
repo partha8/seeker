@@ -59,6 +59,8 @@ export const signup = createAsyncThunk(
         followers: [],
         following: [],
         posts: [],
+        likedPosts: [],
+        bookmarkedPosts: [],
       });
     } catch (error: any) {
       toast.error(error.message);
