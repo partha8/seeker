@@ -29,14 +29,22 @@ export const People = () => {
                 )}
                 <p className={styles.displayName}>{displayName}</p>
                 <span className={styles.userName}>@{userName}</span>
-                <button
-                  onClick={() => dispatch(followHandler(id))}
-                  className="btn"
-                >
-                  {userDetails?.following.some((user) => user === id)
-                    ? "Unfollow"
-                    : "Follow"}
-                </button>
+
+                {userDetails?.following.some((user) => user === id) ? (
+                  <button
+                    onClick={() => dispatch(followHandler(id))}
+                    className="btn btn-outline"
+                  >
+                    Unfollow
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => dispatch(followHandler(id))}
+                    className="btn"
+                  >
+                    Follow
+                  </button>
+                )}
               </div>
             );
           })}
