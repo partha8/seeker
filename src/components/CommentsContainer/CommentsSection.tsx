@@ -46,9 +46,10 @@ export const CommentsSection = ({ comments, postID }: Prop) => {
           placeholder="write a comment"
         />
         <MdSend
-          onClick={() =>
-            dispatch(addComment({ comment: commentInput, postID }))
-          }
+          onClick={() => {
+            dispatch(addComment({ comment: commentInput, postID }));
+            setCommentInput("");
+          }}
           className={styles.postComment}
         />
       </section>

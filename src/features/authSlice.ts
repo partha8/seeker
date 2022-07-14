@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   AuthState,
   LoginDetails,
+  OtherUsers,
   SignupDetails,
   UserDetails,
 } from "../types/auth.types";
@@ -12,7 +13,17 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { toast } from "react-toastify";
-import { setDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+} from "firebase/firestore";
+import { store } from "../app/store";
 
 const initialState: AuthState = {
   userDetails: null,
@@ -82,6 +93,30 @@ export const getUserDetails = createAsyncThunk(
   }
 );
 
+export const followHandler = createAsyncThunk(
+  "auth/followHandler",
+  async (personID: string, thunkAPI) => {
+    try {
+      const { auth } = store.getState();
+      const isFollowing = auth.userDetails?.following.some(
+        (user) => user === personID
+      );
+
+      await updateDoc(doc(db, "users", auth.id), {
+        following: isFollowing ? arrayRemove(personID) : arrayUnion(personID),
+      });
+
+      await updateDoc(doc(db, "users", personID), {
+        followers: isFollowing ? arrayRemove(auth.id) : arrayUnion(auth.id),
+      });
+      return { isFollowing, personID, uid: auth.id };
+    } catch (error: any) {
+      toast.error(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -94,9 +129,27 @@ const authSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(getUserDetails.fulfilled, (state, action) => {
-      state.userDetails = action.payload;
-    });
+    builder
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        state.userDetails = action.payload;
+      })
+      .addCase(followHandler.fulfilled, (state, action) => {
+        state.userDetails!.following = action.payload.isFollowing
+          ? state.userDetails!.following.filter(
+              (user) => user !== action.payload.personID
+            )
+          : [...state.userDetails!.following, action.payload.personID];
+
+        state.allUsers = state.allUsers.map((user) => {
+          if (user.id === action.payload.personID) {
+            return {
+              ...user,
+              followers: [user.followers, action.payload.uid],
+            } as OtherUsers;
+          }
+          return user as OtherUsers;
+        });
+      });
   },
 });
 
