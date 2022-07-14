@@ -1,8 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  isRejectedWithValue,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   addDoc,
   arrayRemove,
@@ -23,41 +19,33 @@ import { store } from "../app/store";
 import { toast } from "react-toastify";
 
 const initialState: PostState = {
-  // Feed posts state
-  feedPosts: [],
-  feedPostsLoading: false,
-  explorePosts: [],
-  explorePostsLoading: false,
+  posts: [],
+  postsLoading: false,
   postModal: false,
   editPost: null,
 };
 
-export const getFeedPosts = createAsyncThunk(
-  "posts/getFeedPosts",
+export const getPosts = createAsyncThunk(
+  "posts/getPosts",
   async (_, thunkAPI) => {
     try {
-      let feedPosts = [];
+      let posts = [];
       const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-      const feedPostsSnapShot = await getDocs(q);
-      for await (const feedPost of feedPostsSnapShot.docs) {
+      const postsSnapShot = await getDocs(q);
+      for await (const feedPost of postsSnapShot.docs) {
         const userSnapshot = await getDoc(
           doc(db, "users", feedPost.data().uid)
         );
-        feedPosts.push({
+        posts.push({
           postID: feedPost.id,
           displayName: userSnapshot.data()?.displayName,
           photo: userSnapshot.data()?.photo,
           userName: userSnapshot.data()?.userName,
           ...feedPost.data(),
-          // comments: feedPost.data().comments,
-          // createdAt: JSON.stringify(feedPost.data().createdAt),
-          // likes: feedPost.data().likes,
-          // postDescription: feedPost.data().postDescription,
-          // uid: feedPost.data().uid,
         });
       }
 
-      return feedPosts as Posts[];
+      return posts as Posts[];
     } catch (error: any) {
       console.error(error);
       return thunkAPI.rejectWithValue(error);
@@ -85,19 +73,21 @@ export const addNewPost = createAsyncThunk(
         posts: arrayUnion(postRef.id),
       });
 
+      const newPostref = await getDoc(doc(db, "posts", postRef.id));
+
       const post = {
         postID: postRef.id,
         uid: auth.id,
         comments: [],
-        createdAt,
+        createdAt: newPostref.data()?.createdAt,
         likes: [],
         postDescription,
         displayName: auth.userDetails?.displayName,
         photo: auth.userDetails?.photo,
         userName: auth.userDetails?.userName,
       };
-      const newFeedPosts = [post, ...posts.feedPosts];
-      return newFeedPosts as Posts[];
+      const newposts = [post, ...posts.posts];
+      return newposts as Posts[];
     } catch (error: any) {
       toast.error(error.message);
       return rejectWithValue(error.message);
@@ -187,33 +177,37 @@ const postsSlice = createSlice({
     setEditPost(state, action) {
       state.editPost = action.payload;
     },
+    setPosts(state, action) {
+      state.posts = action.payload;
+      console.log(state.posts);
+    },
   },
   extraReducers(builder) {
     builder
-      .addCase(getFeedPosts.pending, (state) => {
-        state.feedPostsLoading = true;
+      .addCase(getPosts.pending, (state) => {
+        state.postsLoading = true;
       })
-      .addCase(getFeedPosts.fulfilled, (state, action) => {
-        state.feedPosts = action.payload;
-        state.feedPostsLoading = false;
+      .addCase(getPosts.fulfilled, (state, action) => {
+        state.posts = action.payload;
+        state.postsLoading = false;
       })
 
       // add a new post
       .addCase(addNewPost.fulfilled, (state, action) => {
-        state.feedPosts = action.payload;
+        state.posts = action.payload;
         state.postModal = false;
       })
 
       // delete post
       .addCase(deletePost.fulfilled, (state, action) => {
-        state.feedPosts = state.feedPosts.filter(
+        state.posts = state.posts.filter(
           (post) => post.postID !== action.payload
         );
       })
 
       // edit post
       .addCase(editSelectedPost.fulfilled, (state, action) => {
-        state.feedPosts = state.feedPosts.map((post) => {
+        state.posts = state.posts.map((post) => {
           if (post.postID === action.payload.postID) {
             return { ...post, postDescription: action.payload.input };
           }
@@ -224,7 +218,7 @@ const postsSlice = createSlice({
 
       // handle like
       .addCase(handleLike.fulfilled, (state, action) => {
-        state.feedPosts = state.feedPosts.map((post) => {
+        state.posts = state.posts.map((post) => {
           if (post.postID === action.payload.postID) {
             return {
               ...post,
@@ -239,7 +233,7 @@ const postsSlice = createSlice({
 
       // add a comment
       .addCase(addComment.fulfilled, (state, action) => {
-        state.feedPosts = state.feedPosts.map((post) => {
+        state.posts = state.posts.map((post) => {
           if (post.postID === action.payload.postID) {
             return {
               ...post,
@@ -252,6 +246,6 @@ const postsSlice = createSlice({
   },
 });
 
-export const { setPostModal, setEditPost } = postsSlice.actions;
+export const { setPostModal, setEditPost, setPosts } = postsSlice.actions;
 
 export default postsSlice.reducer;

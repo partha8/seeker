@@ -29,7 +29,7 @@
   --warning-color: #fade53;
 
   --light-shadow: 0 5px 15px rgba(165, 165, 165, 0.1);
-  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 1);
 
   --transition-one: all 0.4s linear;
   --transition-two: 0.3s ease-in-out all;

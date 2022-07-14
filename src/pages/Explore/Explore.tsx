@@ -2,25 +2,14 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Navbar, PostCard, Sidebar } from "../../components";
 import { getPosts } from "../../features/postsSlice";
-import styles from "./feed.module.css";
 
-export const Feed = () => {
+export const Explore = () => {
   const { postsLoading, posts } = useAppSelector((store) => store?.posts);
-  const auth = useAppSelector((store) => store.auth);
 
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     dispatch(getPosts());
   }, []);
-
-  console.log(posts);
-
-  const filteredPosts = posts.filter(
-    (post) =>
-      post.uid === auth.id ||
-      auth.userDetails?.following.some((user) => user === post.uid)
-  );
 
   return (
     <div>
@@ -31,7 +20,7 @@ export const Feed = () => {
           {postsLoading ? (
             <h2>Loading...</h2>
           ) : (
-            filteredPosts?.map((post) => {
+            posts?.map((post) => {
               return <PostCard key={post.postID} {...post} />;
             })
           )}

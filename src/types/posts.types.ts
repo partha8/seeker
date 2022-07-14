@@ -14,10 +14,8 @@ export type Posts = {
 };
 
 export type PostState = {
-  feedPosts: Posts[];
-  feedPostsLoading: boolean;
-  explorePosts: Posts[];
-  explorePostsLoading: boolean;
+  postsLoading: boolean;
+  posts: Posts[];
   postModal: boolean;
   editPost: Posts | null;
 };
