@@ -14,7 +14,7 @@ import { CommentsSection } from "../CommentsContainer/CommentsSection";
 export const PostCard = (prop: Posts) => {
   const {
     comments,
-    // createdAt,
+    createdAt,
     displayName,
     likes,
     photo,
@@ -24,11 +24,11 @@ export const PostCard = (prop: Posts) => {
     userName,
   } = prop;
 
-  // const time = createdAt ? moment(createdAt.toDate()).fromNow() : null;
-  // let time;
-  // if (createdAt) {
-  //   time = moment(createdAt?.toDate()).fromNow();
-  // }
+  let time, date;
+  if (createdAt) {
+    time = moment(createdAt?.toDate()).fromNow();
+    date = createdAt.toDate().toString().split(" ").splice(0, 4).join(" ");
+  }
 
   const { id } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
@@ -48,7 +48,10 @@ export const PostCard = (prop: Posts) => {
         )}
         <p className={styles.displayName}>{displayName}</p>
         <span className={styles.userName}>@{userName}</span>
-        {/* <span className={styles.time}>{time}</span> */}
+        <span className={styles.timedate}>
+          <span>{time}</span>,
+          <span>{date}</span>
+        </span>
         <DropDown {...prop} />
       </section>
 

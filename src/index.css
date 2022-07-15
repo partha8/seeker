@@ -29,7 +29,7 @@
   --warning-color: #fade53;
 
   --light-shadow: 0 5px 15px rgba(165, 165, 165, 0.1);
-  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 1);
 
   --transition-one: all 0.4s linear;
   --transition-two: 0.3s ease-in-out all;
@@ -163,13 +163,13 @@ body {
 }
 
 .avatar-standard {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.3rem;
+  height: 2.3rem;
 }
 
 .avatar-small {
-  width: 2rem;
-  height: 2rem;
+  width: 1.8rem;
+  height: 1.8rem;
 }
 
 .menu {

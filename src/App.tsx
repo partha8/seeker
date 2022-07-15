@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthObserver } from "./hooks/useAuthObserver";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route } from "react-router-dom";
-import { Feed, Login, People, Signup } from "./pages";
+import { Explore, Feed, Login, People, Signup } from "./pages";
 import { InputModal, Navbar, RequireAuth } from "./components";
 import { useGetAllUser } from "./hooks/useGetAllUser";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { getUserDetails } from "./features/authSlice";
 
 export const App = () => {
+  const { posts } = useAppSelector((store) => store.posts);
+  const { id } = useAppSelector((store) => store.auth);
+  const dispatch = useAppDispatch();
   useAuthObserver();
   useGetAllUser();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getUserDetails(id));
+    }
+  }, [dispatch, id, posts]);
 
   return (
     <>
@@ -32,6 +43,7 @@ export const App = () => {
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Feed />} />
           <Route path="/people" element={<People />} />
+          <Route path="/explore" element={<Explore />} />
         </Route>
       </Routes>
     </>
