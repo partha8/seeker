@@ -3,8 +3,8 @@ import { useAuthObserver } from "./hooks/useAuthObserver";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route } from "react-router-dom";
-import { Explore, Feed, Login, People, Signup } from "./pages";
-import { InputModal, Navbar, RequireAuth } from "./components";
+import { Bookmark, Explore, Feed, Login, People, Signup } from "./pages";
+import { InputModal, RequireAuth } from "./components";
 import { useGetAllUser } from "./hooks/useGetAllUser";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { getUserDetails } from "./features/authSlice";
@@ -44,6 +44,7 @@ export const App = () => {
           <Route path="/" element={<Feed />} />
           <Route path="/people" element={<People />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/bookmark" element={<Bookmark />} />
         </Route>
       </Routes>
     </>

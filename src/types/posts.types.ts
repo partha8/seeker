@@ -18,4 +18,6 @@ export type PostState = {
   posts: Posts[];
   postModal: boolean;
   editPost: Posts | null;
+  bookmarkedPosts: Posts[];
+  bookmarkedPostsLoading: boolean;
 };

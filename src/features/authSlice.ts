@@ -17,13 +17,12 @@ import {
   setDoc,
   doc,
   getDoc,
-  getDocs,
-  collection,
   updateDoc,
   arrayRemove,
   arrayUnion,
 } from "firebase/firestore";
 import { store } from "../app/store";
+import { handleBookmark } from "./postsSlice";
 
 const initialState: AuthState = {
   userDetails: null,
@@ -149,6 +148,13 @@ const authSlice = createSlice({
           }
           return user as OtherUsers;
         });
+      })
+      .addCase(handleBookmark.fulfilled, (state, action) => {
+        state.userDetails!.bookmarkedPosts = action.payload.bookmarkPostExists
+          ? state.userDetails!.bookmarkedPosts.filter(
+              (postID) => postID !== action.payload.post.postID
+            )
+          : [...state.userDetails!.bookmarkedPosts, action.payload.post.postID];
       });
   },
 });

@@ -23,6 +23,8 @@ const initialState: PostState = {
   postsLoading: false,
   postModal: false,
   editPost: null,
+  bookmarkedPosts: [],
+  bookmarkedPostsLoading: false,
 };
 
 export const getPosts = createAsyncThunk(
@@ -147,6 +149,58 @@ export const handleLike = createAsyncThunk(
   }
 );
 
+export const getBookmarkedPosts = createAsyncThunk(
+  "posts/getBookmarkedPosts",
+  async (_, thunkAPI) => {
+    const { auth } = store.getState();
+    try {
+      let bookmarkPosts = [];
+
+      for await (const postID of auth.userDetails!.bookmarkedPosts) {
+        const bookmarkSnapshot = await getDoc(doc(db, "posts", postID));
+        if (bookmarkSnapshot.exists()) {
+          const authorSnapshot = await getDoc(
+            doc(db, "users", bookmarkSnapshot.data().uid)
+          );
+          bookmarkPosts.push({
+            postID: bookmarkSnapshot.id,
+            displayName: authorSnapshot.data()?.displayName,
+            userName: authorSnapshot.data()?.userName,
+            photo: authorSnapshot.data()?.photo,
+            ...bookmarkSnapshot.data(),
+          });
+        }
+      }
+      return bookmarkPosts as Posts[];
+    } catch (error: any) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const handleBookmark = createAsyncThunk(
+  "posts/handleBookmark",
+  async (postInfo: Posts, thunkAPI) => {
+    const { auth } = store.getState();
+    try {
+      const bookmarkPostExists = auth.userDetails?.bookmarkedPosts.some(
+        (post) => post === postInfo.postID
+      );
+
+      await updateDoc(doc(db, "users", auth.id), {
+        bookmarkedPosts: bookmarkPostExists
+          ? arrayRemove(postInfo.postID)
+          : arrayUnion(postInfo.postID),
+      });
+      return { bookmarkPostExists, post: postInfo };
+    } catch (error: any) {
+      toast.error(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const addComment = createAsyncThunk(
   "posts/addComment",
   async ({ comment, postID }: any, thunkAPI) => {
@@ -203,11 +257,20 @@ const postsSlice = createSlice({
         state.posts = state.posts.filter(
           (post) => post.postID !== action.payload
         );
+        state.bookmarkedPosts = state.posts.filter(
+          (post) => post.postID !== action.payload
+        );
       })
 
       // edit post
       .addCase(editSelectedPost.fulfilled, (state, action) => {
         state.posts = state.posts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return { ...post, postDescription: action.payload.input };
+          }
+          return post;
+        });
+        state.bookmarkedPosts = state.bookmarkedPosts.map((post) => {
           if (post.postID === action.payload.postID) {
             return { ...post, postDescription: action.payload.input };
           }
@@ -219,6 +282,18 @@ const postsSlice = createSlice({
       // handle like
       .addCase(handleLike.fulfilled, (state, action) => {
         state.posts = state.posts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return {
+              ...post,
+              likes: action.payload.likedPostExists
+                ? post.likes.filter((user) => user !== action.payload.uid)
+                : [...post.likes, action.payload.uid],
+            };
+          }
+          return post;
+        });
+
+        state.bookmarkedPosts = state.bookmarkedPosts.map((post) => {
           if (post.postID === action.payload.postID) {
             return {
               ...post,
@@ -242,6 +317,33 @@ const postsSlice = createSlice({
           }
           return post;
         });
+
+        state.bookmarkedPosts = state.bookmarkedPosts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return {
+              ...post,
+              comments: [...post.comments, action.payload.newComment],
+            };
+          }
+          return post;
+        });
+      })
+
+      // get bookmarked posts
+      .addCase(getBookmarkedPosts.pending, (state, action) => {
+        state.bookmarkedPostsLoading = true;
+      })
+      .addCase(getBookmarkedPosts.fulfilled, (state, action) => {
+        state.bookmarkedPostsLoading = false;
+        state.bookmarkedPosts = action.payload;
+      })
+
+      .addCase(handleBookmark.fulfilled, (state, action) => {
+        state.bookmarkedPosts = action.payload.bookmarkPostExists
+          ? state.bookmarkedPosts.filter(
+              (post) => post.postID !== action.payload.post.postID
+            )
+          : [...state.bookmarkedPosts, action.payload.post];
       });
   },
 });

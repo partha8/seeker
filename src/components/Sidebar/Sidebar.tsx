@@ -26,6 +26,13 @@ export const Sidebar = () => {
 
         <NavLink
           className={({ isActive }) => (isActive ? styles.active : "")}
+          to="/bookmark"
+        >
+          <MdExplore /> My Bookmarks
+        </NavLink>
+
+        <NavLink
+          className={({ isActive }) => (isActive ? styles.active : "")}
           to="/people"
         >
           <MdPeopleAlt /> People
