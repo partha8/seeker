@@ -1,4 +1,3 @@
-import styles from "./dropdown.module.css";
 import { BsThreeDots } from "react-icons/bs";
 import { useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
@@ -6,13 +5,14 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Posts } from "../../types/posts.types";
 import {
   deletePost,
+  handleBookmark,
   setEditPost,
   setPostModal,
 } from "../../features/postsSlice";
 
 export const DropDown = (prop: Posts) => {
   const [dropdown, setDropdown] = useState(false);
-  const { id } = useAppSelector((store) => store?.auth);
+  const { id, userDetails } = useAppSelector((store) => store?.auth);
   const dispatch = useAppDispatch();
 
   const domNode = useClickOutside(() => setDropdown(false));
@@ -42,7 +42,11 @@ export const DropDown = (prop: Posts) => {
                 Delete
               </li>
             )}
-            <li className="item">Bookmark</li>
+            <li onClick={() => dispatch(handleBookmark(prop))} className="item">
+              {userDetails?.bookmarkedPosts.some((post) => post === prop.postID)
+                ? "Remove from bookmarks"
+                : "Add to bookmarks"}
+            </li>
           </ul>
         </div>
       )}
