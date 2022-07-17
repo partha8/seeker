@@ -1,0 +1,36 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+    transition: var(--transition-two);
+    visibility: hidden;
+    z-index: -1;
+}
+
+.showModal {
+    visibility: visible;
+    z-index: 9;
+}
+
+.modalContainer {
+    background: var(--secondary-color);
+    color: var(--font-color-light);
+    border-radius: var(--borderRadius);
+    width: 35rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0.5rem;
+}
+
+.btnContainer {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: end;
+}

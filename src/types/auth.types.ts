@@ -4,10 +4,12 @@ export type UserDetails = {
   userName: string;
   photo: string | null;
   followers: string[];
-  following: string[] ;
+  following: string[];
   posts: string[];
   likedPosts: string[];
   bookmarkedPosts: string[];
+  bio: string;
+  portfolioLink: string;
 };
 
 export type OtherUsers = {
@@ -21,6 +23,8 @@ export type OtherUsers = {
   posts: string[];
   likedPosts: string[];
   bookmarkedPosts: string[];
+  bio: string;
+  portfolioLink: string;
 };
 
 export type AuthState = {

@@ -71,6 +71,8 @@ export const signup = createAsyncThunk(
         posts: [],
         likedPosts: [],
         bookmarkedPosts: [],
+        bio: "",
+        portfolioLink: "",
       });
     } catch (error: any) {
       toast.error(error.message);
