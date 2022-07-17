@@ -34,3 +34,45 @@
     gap: 1rem;
     justify-content: end;
 }
+
+.form {
+    padding: 1rem 0.5rem;
+}
+
+.form label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.form input {
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    background: var(--quaternary-color);
+    font-size: 1.1rem;
+    color: var(--font-color-light);
+    margin-bottom: 1rem;
+}
+
+.imgContainer {
+    position: relative;
+    text-align: center;
+}
+
+.profilePhoto {
+    width: 5rem;
+    height: 5rem;
+}
+
+.uploadIcon {
+    background: var(--secondary-color);
+    font-size: 1.6rem;
+    position: absolute;
+    border-radius: 50%;
+    bottom: 5px;
+    right: 42%;
+    z-index: 1;
+    cursor: pointer;
+}

@@ -25,8 +25,8 @@ export const Profile = () => {
           <div className={styles.profileContainer}>
             {userDetails?.photo ? (
               <img
-                className="avatar avatar-standard"
-                src="https://images6.alphacoders.com/119/1199914.png"
+                className={`avatar ${styles.profilePhoto}`}
+                src={userDetails?.photo}
                 alt="gojo"
               />
             ) : (
