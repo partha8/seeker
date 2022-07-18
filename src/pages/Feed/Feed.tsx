@@ -15,7 +15,7 @@ export const Feed = () => {
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, []);
 
   const filteredPosts = posts.filter(
     (post) =>

@@ -21,7 +21,7 @@ export const People = () => {
                 {photo ? (
                   <img
                     className="avatar avatar-standard"
-                    src="https://images6.alphacoders.com/119/1199914.png"
+                    src={photo}
                     alt="gojo"
                   />
                 ) : (

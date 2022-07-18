@@ -14,7 +14,7 @@ export const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>

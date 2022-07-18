@@ -65,7 +65,7 @@ export const signup = createAsyncThunk(
         displayName: auth.currentUser!.displayName,
         email: auth.currentUser!.email,
         userName: userName,
-        photo: null,
+        photo: "",
         followers: [],
         following: [],
         posts: [],
@@ -116,6 +116,23 @@ export const followHandler = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.message);
     }
   }
+);
+
+export const updateProfileDetails = createAsyncThunk(
+  "auth/updateProfileDetails",
+  async ({
+    displayName,
+    userName,
+    portfolioLink,
+    bio,
+    photo,
+  }: {
+    displayName: string;
+    userName: string;
+    portfolioLink: string;
+    bio: string;
+    photo: string | null;
+  }) => {}
 );
 
 const authSlice = createSlice({

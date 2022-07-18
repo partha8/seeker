@@ -22,7 +22,7 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
   });
 
   const [errMsg, setErrMsg] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
   const filePickerRef = useRef<any>(null);
 
   useEffect(() => {
@@ -63,8 +63,17 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
   const handleChange = (e: { target: { name: string; value: string } }) => {
     const name = e.target.name;
     const value = e.target.value;
-
     setProfileDetails({ ...profileDetails, [name]: value });
+  };
+
+  const imageChangeHandler = (e: any) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    reader.onload = (readerEvent) => {
+      setSelectedFile(readerEvent.target!.result);
+    };
   };
 
   return (
@@ -78,7 +87,14 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
       <div ref={domNode} className={styles.modalContainer}>
         <form className={styles.form}>
           <div className={styles.imgContainer}>
-            {userDetails?.photo ? (
+            
+            {selectedFile ? (
+              <img
+                className={`avatar ${styles.profilePhoto}`}
+                src={selectedFile}
+                alt="profile"
+              />
+            ) : userDetails?.photo ? (
               <img
                 className={`avatar ${styles.profilePhoto}`}
                 src={userDetails?.photo}
@@ -87,6 +103,17 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
             ) : (
               <BsPersonCircle className={styles.profilePhoto} />
             )}
+
+            {/* {userDetails?.photo ? (
+              <img
+                className={`avatar ${styles.profilePhoto}`}
+                src={userDetails?.photo}
+                alt="gojo"
+              />
+            ) : (
+              <BsPersonCircle className={styles.profilePhoto} />
+            )} */}
+
             <MdOutlineFileUpload
               onClick={() => filePickerRef.current.click()}
               className={styles.uploadIcon}

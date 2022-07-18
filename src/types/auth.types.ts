@@ -2,7 +2,7 @@ export type UserDetails = {
   displayName: string;
   email: string;
   userName: string;
-  photo: string | null;
+  photo: string;
   followers: string[];
   following: string[];
   posts: string[];
@@ -16,7 +16,7 @@ export type OtherUsers = {
   displayName: string;
   email: string;
   userName: string;
-  photo: string | null;
+  photo: string ;
   id: string;
   followers: string[];
   following: string[];
