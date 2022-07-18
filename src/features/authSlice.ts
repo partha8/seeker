@@ -6,13 +6,15 @@ import {
   SignupDetails,
   UserDetails,
 } from "../types/auth.types";
-import { auth, db } from "../firebase.config";
+import { toast } from "react-toastify";
+
+import { auth, db, storage } from "../firebase.config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { toast } from "react-toastify";
+
 import {
   setDoc,
   doc,
@@ -21,6 +23,8 @@ import {
   arrayRemove,
   arrayUnion,
 } from "firebase/firestore";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+
 import { store } from "../app/store";
 import { handleBookmark } from "./postsSlice";
 
@@ -120,19 +124,54 @@ export const followHandler = createAsyncThunk(
 
 export const updateProfileDetails = createAsyncThunk(
   "auth/updateProfileDetails",
-  async ({
-    displayName,
-    userName,
-    portfolioLink,
-    bio,
-    photo,
-  }: {
-    displayName: string;
-    userName: string;
-    portfolioLink: string;
-    bio: string;
-    photo: string | null;
-  }) => {}
+  async (
+    {
+      displayName,
+      userName,
+      portfolioLink,
+      bio,
+      photo,
+    }: {
+      displayName: string;
+      userName: string;
+      portfolioLink: string;
+      bio: string;
+      photo: string;
+    },
+    thunkAPI
+  ) => {
+    const { auth } = store.getState();
+    try {
+      await updateDoc(doc(db, "users", auth.id), {
+        displayName,
+        userName,
+        bio,
+        portfolioLink,
+      });
+      const imageRef = ref(storage, `users/${auth.id}/image`);
+      let downloadURL = "";
+      if (photo) {
+        await uploadString(imageRef, photo, "data_url").then(async () => {
+          downloadURL = await getDownloadURL(imageRef);
+          await updateDoc(doc(db, "users", auth.id), {
+            photo: downloadURL,
+          });
+        });
+      }
+      toast.success("Profile successfully updated!");
+      return {
+        displayName,
+        userName,
+        portfolioLink,
+        bio,
+        photo: downloadURL,
+        id: auth.id,
+      };
+    } catch (error: any) {
+      toast.error(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
 );
 
 const authSlice = createSlice({
@@ -174,7 +213,26 @@ const authSlice = createSlice({
               (postID) => postID !== action.payload.post.postID
             )
           : [...state.userDetails!.bookmarkedPosts, action.payload.post.postID];
-      });
+      })
+
+      // profile update
+      .addCase(
+        updateProfileDetails.fulfilled,
+        (
+          state,
+          { payload: { displayName, userName, bio, portfolioLink, photo } }
+        ) => {
+          const details = {
+            ...state.userDetails,
+            displayName,
+            userName,
+            bio,
+            portfolioLink,
+            photo: photo ? photo : state.userDetails?.photo,
+          } as UserDetails;
+          state.userDetails = details;
+        }
+      );
   },
 });
 

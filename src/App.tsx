@@ -19,7 +19,7 @@ import { getUserDetails } from "./features/authSlice";
 
 export const App = () => {
   const { posts } = useAppSelector((store) => store.posts);
-  const { id, userDetails } = useAppSelector((store) => store.auth);
+  const { id } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
   useAuthObserver();
   useGetAllUser();
@@ -28,7 +28,7 @@ export const App = () => {
     if (id) {
       dispatch(getUserDetails(id));
     }
-  }, [id, posts, userDetails]);
+  }, [id, posts]);
 
   return (
     <>

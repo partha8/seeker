@@ -17,6 +17,7 @@ import { db } from "../firebase.config";
 import { Posts, PostState } from "../types/posts.types";
 import { store } from "../app/store";
 import { toast } from "react-toastify";
+import { updateProfileDetails } from "./authSlice";
 
 const initialState: PostState = {
   posts: [],
@@ -344,7 +345,20 @@ const postsSlice = createSlice({
               (post) => post.postID !== action.payload.post.postID
             )
           : [...state.bookmarkedPosts, action.payload.post];
-      });
+      })
+
+      // update the posts with the new user details
+      .addCase(
+        updateProfileDetails.fulfilled,
+        (state, { payload: { displayName, userName, id, photo } }) => {
+          state.posts = state.posts.map((post) => {
+            if (post.uid === id) {
+              return { ...post, displayName, userName, photo };
+            }
+            return post;
+          });
+        }
+      );
   },
 });
 

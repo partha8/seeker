@@ -8,7 +8,7 @@ export type Posts = {
   postDescription: string;
   uid: string;
   displayName: string;
-  photo: string | null;
+  photo: string;
   userName: string;
   postID: string;
 };

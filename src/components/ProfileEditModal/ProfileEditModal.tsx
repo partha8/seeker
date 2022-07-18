@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import styles from "./profile-edit-modal.module.css";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { updateProfileDetails } from "../../features/authSlice";
+import { toast } from "react-toastify";
 
 type Props = {
   showModal: boolean;
@@ -13,6 +15,7 @@ type Props = {
 export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
   const domNode = useClickOutside(setShowModal);
   const { userDetails, allUsers } = useAppSelector((store) => store?.auth);
+  const dispatch = useAppDispatch();
 
   const [profileDetails, setProfileDetails] = useState({
     displayName: "",
@@ -76,6 +79,19 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
     };
   };
 
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    dispatch(
+      updateProfileDetails({
+        displayName: profileDetails.displayName,
+        userName: profileDetails.userName,
+        portfolioLink: profileDetails.portfolioLink,
+        bio: profileDetails.bio,
+        photo: selectedFile,
+      })
+    );
+    setShowModal();
+  };
   return (
     <div
       className={`${
@@ -85,9 +101,8 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
       }`}
     >
       <div ref={domNode} className={styles.modalContainer}>
-        <form className={styles.form}>
+        <form onSubmit={submitHandler} className={styles.form}>
           <div className={styles.imgContainer}>
-            
             {selectedFile ? (
               <img
                 className={`avatar ${styles.profilePhoto}`}
@@ -103,22 +118,16 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
             ) : (
               <BsPersonCircle className={styles.profilePhoto} />
             )}
-
-            {/* {userDetails?.photo ? (
-              <img
-                className={`avatar ${styles.profilePhoto}`}
-                src={userDetails?.photo}
-                alt="gojo"
-              />
-            ) : (
-              <BsPersonCircle className={styles.profilePhoto} />
-            )} */}
-
             <MdOutlineFileUpload
               onClick={() => filePickerRef.current.click()}
               className={styles.uploadIcon}
             />
-            <input type="file" ref={filePickerRef} hidden />
+            <input
+              onChange={imageChangeHandler}
+              type="file"
+              ref={filePickerRef}
+              hidden
+            />
           </div>
           <label htmlFor="displayName">Full Name</label>
           <input
