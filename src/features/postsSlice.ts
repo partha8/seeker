@@ -353,7 +353,7 @@ const postsSlice = createSlice({
         (state, { payload: { displayName, userName, id, photo } }) => {
           state.posts = state.posts.map((post) => {
             if (post.uid === id) {
-              return { ...post, displayName, userName, photo };
+              return { ...post, displayName, userName, photo: photo ? photo : post.photo, };
             }
             return post;
           });
