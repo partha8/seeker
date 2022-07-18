@@ -33,7 +33,7 @@ export const CommentsSection = ({ comments, postID }: Prop) => {
         {userDetails?.photo ? (
           <img
             className="avatar avatar-standard"
-            src="https://images6.alphacoders.com/119/1199914.png"
+            src={userDetails?.photo}
             alt="gojo"
           />
         ) : (

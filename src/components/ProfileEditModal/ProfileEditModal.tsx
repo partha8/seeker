@@ -5,7 +5,6 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import styles from "./profile-edit-modal.module.css";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { updateProfileDetails } from "../../features/authSlice";
-import { toast } from "react-toastify";
 
 type Props = {
   showModal: boolean;
