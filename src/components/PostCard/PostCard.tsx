@@ -38,19 +38,14 @@ export const PostCard = (prop: Posts) => {
     <div className={styles.postContainer}>
       <section className={styles.postAccountDetails}>
         {photo ? (
-          <img
-            className="avatar avatar-standard"
-            src="https://images6.alphacoders.com/119/1199914.png"
-            alt="gojo"
-          />
+          <img className="avatar avatar-standard" src={photo} alt="gojo" />
         ) : (
           <BsPersonCircle className="avatar-standard" />
         )}
         <p className={styles.displayName}>{displayName}</p>
         <span className={styles.userName}>@{userName}</span>
         <span className={styles.timedate}>
-          <span>{time}</span>,
-          <span>{date}</span>
+          <span>{time}</span>,<span>{date}</span>
         </span>
         <DropDown {...prop} />
       </section>

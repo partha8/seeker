@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
 import styles from "./sidebar.module.css";
-import { MdOutlineFeed, MdExplore, MdPeopleAlt } from "react-icons/md";
+import {
+  MdOutlineFeed,
+  MdExplore,
+  MdPeopleAlt,
+  MdBookmark,
+} from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
 import { useAppDispatch } from "../../app/hooks";
 import { setPostModal } from "../../features/postsSlice";
@@ -28,7 +33,7 @@ export const Sidebar = () => {
           className={({ isActive }) => (isActive ? styles.active : "")}
           to="/bookmark"
         >
-          <MdExplore /> My Bookmarks
+          <MdBookmark /> My Bookmarks
         </NavLink>
 
         <NavLink

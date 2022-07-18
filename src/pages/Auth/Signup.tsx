@@ -40,11 +40,11 @@ export const Signup = () => {
         if (userExists) {
           setErrMsg("User already Exists");
         }
-      }, 1000);
+      }, 500);
     }
 
     return () => clearTimeout(timeout);
-  }, [userName]);
+  }, [allUsers, userName]);
 
   return (
     <section className={styles.formBox}>

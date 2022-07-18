@@ -11,7 +11,7 @@ export const Bookmark = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getBookmarkedPosts());
-  }, [dispatch]);
+  }, []);
   return (
     <div>
       <Navbar />
