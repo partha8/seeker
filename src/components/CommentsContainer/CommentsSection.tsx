@@ -61,11 +61,7 @@ export const CommentsSection = ({ comments, postID }: Prop) => {
           <div className={styles.commentContainer} key={comment}>
             <section className={styles.postAccountDetails}>
               {photo ? (
-                <img
-                  className="avatar avatar-small"
-                  src="https://images6.alphacoders.com/119/1199914.png"
-                  alt="gojo"
-                />
+                <img className="avatar avatar-small" src={photo} alt="gojo" />
               ) : (
                 <BsPersonCircle className="avatar-small" />
               )}
