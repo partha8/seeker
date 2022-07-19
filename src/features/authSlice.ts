@@ -13,6 +13,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  User,
 } from "firebase/auth";
 
 import {
@@ -53,15 +54,15 @@ export const signup = createAsyncThunk(
     { email, password, firstName, lastName, userName }: SignupDetails,
     thunkAPI
   ) => {
-    try {
-      toast.info("Signing up, wait a few seconds");
+    toast.info("Signing up, wait a few seconds");
 
+    try {
       await createUserWithEmailAndPassword(auth, email, password);
 
       toast.success("Successfully signed up!");
 
-      const user: any = auth.currentUser;
-      await updateProfile(user, {
+      const user: User | null = auth.currentUser;
+      await updateProfile(user!, {
         displayName: `${firstName} ${lastName}`,
       });
 
@@ -141,6 +142,7 @@ export const updateProfileDetails = createAsyncThunk(
     thunkAPI
   ) => {
     const { auth } = store.getState();
+    toast.info("Updating profile details...");
     try {
       await updateDoc(doc(db, "users", auth.id), {
         displayName,

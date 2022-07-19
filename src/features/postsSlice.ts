@@ -116,12 +116,12 @@ export const deletePost = createAsyncThunk(
 
 export const editSelectedPost = createAsyncThunk(
   "posts/editSelectedPost",
-  async ({ input, postID }: any, thunkAPI) => {
+  async ({ input, postID }: { input: string; postID: string }, thunkAPI) => {
     try {
       await updateDoc(doc(db, "posts", postID), {
         postDescription: input,
       });
-      return { input, postID } as any;
+      return { input, postID };
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -204,7 +204,10 @@ export const handleBookmark = createAsyncThunk(
 
 export const addComment = createAsyncThunk(
   "posts/addComment",
-  async ({ comment, postID }: any, thunkAPI) => {
+  async (
+    { comment, postID }: { comment: string; postID: string },
+    thunkAPI
+  ) => {
     const { auth } = store.getState();
     try {
       const newComment = {
@@ -353,7 +356,12 @@ const postsSlice = createSlice({
         (state, { payload: { displayName, userName, id, photo } }) => {
           state.posts = state.posts.map((post) => {
             if (post.uid === id) {
-              return { ...post, displayName, userName, photo: photo ? photo : post.photo, };
+              return {
+                ...post,
+                displayName,
+                userName,
+                photo: photo ? photo : post.photo,
+              };
             }
             return post;
           });

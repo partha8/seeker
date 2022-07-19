@@ -24,7 +24,7 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
   });
 
   const [errMsg, setErrMsg] = useState("");
-  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<string>("");
   const filePickerRef = useRef<any>(null);
 
   useEffect(() => {
@@ -34,14 +34,14 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
       portfolioLink: userDetails!.portfolioLink,
       bio: userDetails!.bio,
     });
-  }, [userDetails]);
+  }, [userDetails, showModal]);
 
   useEffect(() => {
     setErrMsg("");
   }, [profileDetails.userName]);
 
   useEffect(() => {
-    let timeout: any;
+    let timeout: NodeJS.Timeout | undefined;
     if (
       profileDetails.userName &&
       profileDetails.userName !== userDetails?.userName
@@ -74,11 +74,11 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
       reader.readAsDataURL(e.target.files[0]);
     }
     reader.onload = (readerEvent) => {
-      setSelectedFile(readerEvent.target!.result);
+      setSelectedFile(readerEvent.target!.result!.toString());
     };
   };
 
-  const submitHandler = (e: any) => {
+  const submitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(
       updateProfileDetails({
@@ -175,6 +175,7 @@ export const ProfileEditModal = ({ showModal, setShowModal }: Props) => {
               onClick={(e) => {
                 e.preventDefault();
                 setShowModal();
+                setSelectedFile("");
               }}
             >
               Cancel

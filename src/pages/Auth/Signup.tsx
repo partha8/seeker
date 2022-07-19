@@ -19,7 +19,7 @@ export const Signup = () => {
 
   useEffect(() => {
     setValidMatch(password === matchPassword);
-  }, [matchPassword]);
+  }, [matchPassword, password]);
 
   useEffect(() => {
     setErrMsg("");
@@ -31,7 +31,7 @@ export const Signup = () => {
   };
 
   useEffect(() => {
-    let timeout: any;
+    let timeout: NodeJS.Timeout | undefined;
     if (userName) {
       timeout = setTimeout(() => {
         const userExists = allUsers.some((user) => {
