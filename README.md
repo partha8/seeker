@@ -1,46 +1,85 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+<h1 align="center">Seeker</h1>
 
-## Available Scripts
+<p align="center">
+  A social media application!
+  <br>
+  <a target="__blank" href="https://seeker-f3c5d.web.app/"><strong>To the site!</strong></a>
+  <br>
+</p>
 
-In the project directory, you can run:
+#### Stack Used
 
-### `npm start`
+- React
+- Firebase : 
+  - Authentication : To Login and Signup Users
+  - Firestore Database : To store users and posts information
+  -  Firebase Storage - To Upload images
+- TypeScript
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Tools and Additional Framework :
+- Redux Toolkit 
+- Redux Thunk
+- React Router v6
+- React Toastify
+- React Icons
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### How To Run in Local - 
+Run these commands in your terminal
+ ```
+ git clone https://github.com/partha8/seeker.git
+ cd ./Seeker
+ npm install
+```
 
-### `npm test`
+- Go To [Firebase](https://firebase.google.com/)
+- Create A Project 
+- Add `.env.local` file to the root directory
+- Place all your app related keys from the created firebase project and place it in the `.env.local` as below 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+REACT_APP_API_KEY=<your key>
+REACT_APP_AUTH_DOMAIN=<your domain>
+REACT_APP_PROJECT_ID=<your project id>
+REACT_APP_STORAGE_BUCKET=<your storage bucket>
+REACT_APP_MESSAGING_SENDER_ID=<your sender id>
+REACT_APP_APP_ID= <your app id>
+```
+After that Run in your local with this command. 
 
-### `npm run build`
+`npm start`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+And now this application runs in your local machine too. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
+# Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Authentication: 
 
-### `npm run eject`
+- First Name 
+- Last Name 
+- Set a username
+- User Login (Email, Password || Sign In With Google)
+- Logout
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### User Related Operations
+- Create A post
+- Update Post
+- Delete Post
+- Like / Remove Like from Post
+- Comment on a post 
+- Add/Remove post To/From Bookmarks
+- Follow/ Unfollow a user
+- Edit logged in user's profile details such as name , username, bio, portfolio link, DP
+- Relevant Toast Messages on success or error of certain functionalities
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 👨‍💻 Connect with me
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<a href="https://twitter.com/partha_sarma8"><img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"/></a>
 
-## Learn More
+## Thanks
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Special thanks to my team members (team D3) for reviewing this project!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
