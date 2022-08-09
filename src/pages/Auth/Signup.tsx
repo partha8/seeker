@@ -1,7 +1,9 @@
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { signup } from "../../features/authSlice";
+import { db } from "../../firebase.config";
 import styles from "./auth.module.css";
 
 export const Signup = () => {
@@ -33,12 +35,14 @@ export const Signup = () => {
   useEffect(() => {
     let timeout: NodeJS.Timeout | undefined;
     if (userName) {
-      timeout = setTimeout(() => {
-        const userExists = allUsers.some((user) => {
-          return user.userName.toLowerCase() === userName.toLowerCase();
-        });
-        if (userExists) {
-          setErrMsg("User already Exists");
+      timeout = setTimeout(async () => {
+        const q = query(
+          collection(db, "users"),
+          where("userName", "==", userName)
+        );
+        const docs = await getDocs(q);
+        if (!docs.empty) {
+          setErrMsg("User already exists");
         }
       }, 500);
     }
@@ -150,7 +154,7 @@ export const Signup = () => {
         </div>
 
         {/* submit button */}
-        <button className="btn ">Login</button>
+        <button className="btn">Sign Up!</button>
         <div className={styles.actionLinks}>
           <Link to="/login">Already have an account? Login!</Link>
         </div>
