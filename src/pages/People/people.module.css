@@ -6,10 +6,17 @@
     gap: 10px;
     margin-top: 0.5rem;
     padding: 0.5rem;
-    width: 35rem;
     position: relative;
 }
 
 .userContainer button {
     margin-left: auto;
 }
+
+.userName {
+    line-height: 0;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: var(--clr-grey-60);
+}
+

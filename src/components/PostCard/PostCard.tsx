@@ -1,7 +1,6 @@
 import { Posts } from "../../types/posts.types";
 import { BsPersonCircle } from "react-icons/bs";
 import styles from "./postcard.module.css";
-import Moment from "moment";
 import moment from "moment";
 import { useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
@@ -42,8 +41,12 @@ export const PostCard = (prop: Posts) => {
         ) : (
           <BsPersonCircle className="avatar-standard" />
         )}
-        <p className={styles.displayName}>{displayName}</p>
-        <span className={styles.userName}>@{userName}</span>
+
+        <div>
+          <p className={styles.displayName}>{displayName}</p>
+          <p className={styles.userName}>@{userName}</p>
+        </div>
+
         <span className={styles.timedate}>
           <span>{time}</span>,<span>{date}</span>
         </span>

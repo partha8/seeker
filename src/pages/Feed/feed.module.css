@@ -1,13 +1,12 @@
 .filterSection {
     display: flex;
     gap: 10px;
-    width: 35rem;
     justify-content: end;
     margin: 1rem 0 0;
+    flex-wrap: wrap;
 }
 
 .filterbtn {
-
     background: none;
     border: none;
     cursor: pointer;

@@ -1,0 +1,51 @@
+.aside {
+    color: var(--font-color-light);
+    background: var(--card-color-a55);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    min-width: 21rem;
+    height: fit-content;
+    margin: 1rem 0;
+    border-radius: 10px;
+}
+
+.containerTitle {
+    padding: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.userContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem;
+    position: relative;
+}
+
+
+.userName {
+    line-height: 0;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: var(--clr-grey-60);
+}
+
+
+.userContainer button {
+    margin-left: auto;
+}
+
+.suggestMore {
+    padding: 0.5rem;
+    color: var(--primary-color);
+    width: fit-content;
+}
+
+@media screen and (max-width:950px) {
+    .aside {
+        display: none;
+    }
+}

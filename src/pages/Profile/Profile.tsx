@@ -17,11 +17,12 @@ export const Profile = () => {
   }, []);
 
   return (
-    <div>
-      <Navbar />
+    <>
       <div className="container">
         <Sidebar />
         <main className="main-container">
+          <h4 className="title">Profile</h4>
+
           <div className={styles.profileContainer}>
             {userDetails?.photo ? (
               <img
@@ -76,6 +77,6 @@ export const Profile = () => {
           />
         </main>
       </div>
-    </div>
+    </>
   );
 };

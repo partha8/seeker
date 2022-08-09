@@ -6,3 +6,4 @@ export { InputModal } from "./InputModal/InputModal";
 export { DropDown } from "./DropDown/DropDown";
 export { CommentsSection } from "./CommentsContainer/CommentsSection";
 export { ProfileEditModal } from "./ProfileEditModal/ProfileEditModal";
+export { Recommendations } from "./Recommendations/Recommendations";

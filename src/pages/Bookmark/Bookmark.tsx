@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Navbar, PostCard, Sidebar } from "../../components";
+import { Navbar, PostCard, Recommendations, Sidebar } from "../../components";
 import { getBookmarkedPosts } from "../../features/postsSlice";
 
 export const Bookmark = () => {
@@ -13,8 +13,7 @@ export const Bookmark = () => {
     dispatch(getBookmarkedPosts());
   }, []);
   return (
-    <div>
-      <Navbar />
+    <>
       <div className="container">
         <Sidebar />
         <main className="main-container">
@@ -26,7 +25,8 @@ export const Bookmark = () => {
             })
           )}
         </main>
+        <Recommendations />
       </div>
-    </div>
+    </>
   );
 };

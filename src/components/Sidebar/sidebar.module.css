@@ -1,43 +1,180 @@
-.sidebar {
-    padding:  1rem;
-    width: max-content;
+.nav {
+    position: sticky;
+    color: var(--font-color-light);
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    width: 14rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    height: calc(100vh - 4.5rem);
-    position: sticky;
-    top: 4.5rem;
-    font-size: 1.3rem;
-    background: var(--secondary-color);
+    z-index: 2;
 }
 
-.aside>* {
+.accountSetting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--font-color-unselected);
+    margin: auto 0 1rem 1rem;
+}
+
+.account {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.more {
     cursor: pointer;
 }
 
-.asideLinks {
+.searchBar {
+    background: var(--card-color);
+    border-radius: var(--borderRadius);
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 5px;
+    font-size: 1.2rem;
+    margin: 1.4rem 1rem 0;
 }
 
-.asideLinks>* {
+.btnContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    background: var(--primary-color);
+}
+
+.btnContainer p {
+    width: 100%;
+    text-align: center;
+
+}
+
+.newBtn {
+    background: var(--primary-color);
+    transition: 0.2s;
+    padding: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.newBtn:hover {
+    background: var(--primary-color-dark);
+}
+
+.logo {
     display: flex;
     align-items: center;
     color: var(--font-color-light);
+    padding: 0.5rem 0 0.5rem 1rem;
+    font-weight: lighter;
+    border-radius: 10px;
+    margin: 1rem 0;
     gap: 10px;
+    width: 100%;
+}
 
+.iconContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--font-color-unselected);
+    transition: 0.2s;
+    padding: 0.5rem 0 0.5rem 1rem;
+    font-weight: lighter;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.iconContainer:hover {
+    background: var(--card-color-a55);
 }
 
 .active {
-    background: var(--secondary-color);
-    color: var(--primary-color);
+    color: var(--font-color-light);
+    background: var(--card-color-a55);
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width:1100px) {
+    .searchBar {
+        background: none;
+    }
+
+    .nav {
+        min-width: auto;
+        width: 5rem;
+        padding: 0;
+    }
+
+    .iconContainer {
+        padding: 0.5rem;
+    }
+
+    .logo {
+        justify-content: center;
+        padding: 0.5rem 0;
+
+    }
+
+    .btnContainer,
+    .searchBar,
+    .iconContainer,
+    .accountSetting {
+        justify-content: center;
+    }
+
+    .newBtn {
+        display: flex;
+    }
+
+    .account span,
+    .more,
+    .btnContainer p,
+    .icons p,
+    .search {
+        display: none;
+    }
+}
+
+.dropdown {
+    position: absolute;
+    right: -4rem;
+    z-index: 100;
+    background: var(--bg-color);
+    border-radius: 10px;
+    bottom: 2.5rem;
+    border: 1px solid var(--hover-color);
+}
+
+.item {
+    border: none;
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
     border-radius: 10px;
 }
 
-.post {
-    width: 100%;
-    margin-top: 1rem;
-    font-size: 1.3rem;
-    letter-spacing: 2px;
+.item:hover {
+    background: var(--hover-color);
 }

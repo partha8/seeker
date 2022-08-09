@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Navbar, PostCard, Sidebar } from "../../components";
+import { Navbar, PostCard, Recommendations, Sidebar } from "../../components";
 import { getPosts } from "../../features/postsSlice";
 import { useFilterPosts } from "../../hooks/useFilterPosts";
 import styles from "./feed.module.css";
@@ -26,10 +26,11 @@ export const Feed = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="container">
         <Sidebar />
         <main className="main-container">
+          <h4 className="title">Home</h4>
+
           <section className={styles.filterSection}>
             <button
               onClick={() =>
@@ -58,6 +59,7 @@ export const Feed = () => {
             })
           )}
         </main>
+        <Recommendations />
       </div>
     </div>
   );

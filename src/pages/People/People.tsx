@@ -9,11 +9,12 @@ export const People = () => {
   const otherUsers = allUsers.filter((user) => user.id !== id);
   const dispatch = useAppDispatch();
   return (
-    <div>
-      <Navbar />
+    <>
       <div className="container">
         <Sidebar />
         <main className="main-container">
+          <h4 className="title">People</h4>
+
           {otherUsers.map((user) => {
             const { id, photo, displayName, userName } = user;
             return (
@@ -27,8 +28,10 @@ export const People = () => {
                 ) : (
                   <BsPersonCircle className="avatar-standard" />
                 )}
-                <p className={styles.displayName}>{displayName}</p>
-                <span className={styles.userName}>@{userName}</span>
+                <div>
+                  <p className={styles.displayName}>{displayName}</p>
+                  <p className={styles.userName}>@{userName}</p>
+                </div>
 
                 {userDetails?.following.some((user) => user === id) ? (
                   <button
@@ -50,6 +53,6 @@ export const People = () => {
           })}
         </main>
       </div>
-    </div>
+    </>
   );
 };

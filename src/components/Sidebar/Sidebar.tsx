@@ -6,56 +6,131 @@ import {
   MdPeopleAlt,
   MdBookmark,
 } from "react-icons/md";
-import { BsPersonCircle } from "react-icons/bs";
-import { useAppDispatch } from "../../app/hooks";
+import { BsPersonCircle, BsThreeDots } from "react-icons/bs";
+import { AiOutlinePlus } from "react-icons/ai";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setPostModal } from "../../features/postsSlice";
+import { useState } from "react";
+import { useClickOutside } from "../../hooks/useClickOutside";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase.config";
+import { GiSittingDog } from "react-icons/gi";
 
 export const Sidebar = () => {
+  const [dropDown, setDropDown] = useState<Boolean>(false);
+  const { userDetails } = useAppSelector((store) => store.auth);
+  const domNode = useClickOutside(() => setDropDown(false));
+
   const dispatch = useAppDispatch();
+
   return (
-    <aside className={styles.sidebar}>
-      <div className={styles.asideLinks}>
+    <nav className={styles.nav}>
+      <section className={styles.logo}>
+        <GiSittingDog className={styles.icon} />
+      </section>
+
+      <section className={styles.icons}>
         <NavLink
-          className={({ isActive }) => (isActive ? styles.active : "")}
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.iconContainer} ${styles.active} `
+              : `${styles.iconContainer}`
+          }
           to="/"
         >
-          <MdOutlineFeed /> My Feed
+          <MdOutlineFeed className={styles.icon} />
+          <p className="flex-center">Home</p>
         </NavLink>
 
         <NavLink
-          className={({ isActive }) => (isActive ? styles.active : "")}
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.iconContainer} ${styles.active} `
+              : `${styles.iconContainer}`
+          }
           to="/explore"
         >
-          <MdExplore /> Explore
+          <MdExplore className={styles.icon} />{" "}
+          <p className="flex-center">Explore</p>
         </NavLink>
 
         <NavLink
-          className={({ isActive }) => (isActive ? styles.active : "")}
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.iconContainer} ${styles.active} `
+              : `${styles.iconContainer}`
+          }
           to="/bookmark"
         >
-          <MdBookmark /> My Bookmarks
+          <MdBookmark className={styles.icon} />{" "}
+          <p className="flex-center">Bookmarks</p>
         </NavLink>
 
         <NavLink
-          className={({ isActive }) => (isActive ? styles.active : "")}
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.iconContainer} ${styles.active} `
+              : `${styles.iconContainer}`
+          }
           to="/people"
         >
-          <MdPeopleAlt /> People
+          <MdPeopleAlt className={styles.icon} />{" "}
+          <p className="flex-center">People</p>
         </NavLink>
 
         <NavLink
-          className={({ isActive }) => (isActive ? styles.active : "")}
+          className={({ isActive }) =>
+            isActive
+              ? `${styles.iconContainer} ${styles.active} `
+              : `${styles.iconContainer}`
+          }
           to="/profile"
         >
-          <BsPersonCircle /> My Profile
+          <BsPersonCircle className={styles.icon} />
+          <p className="flex-center">My Profile</p>
         </NavLink>
-      </div>
-      <button
+      </section>
+
+      <section
         onClick={() => dispatch(setPostModal(true))}
-        className={`btn ${styles.post}`}
+        className={styles.btnContainer}
       >
-        Post
-      </button>
-    </aside>
+        <button className={`btn ${styles.newBtn}`}>
+          <AiOutlinePlus />
+        </button>
+        <p>New Post</p>
+      </section>
+
+      <section className={styles.accountSetting}>
+        <div className={styles.account}>
+          {userDetails?.photo ? (
+            <img
+              className="avatar avatar-standard"
+              src={userDetails?.photo}
+              alt="profile"
+            />
+          ) : (
+            <BsPersonCircle className="avatar avatar-standard" />
+          )}
+
+          <span className="flex-center">{userDetails?.displayName}</span>
+        </div>
+
+        <BsThreeDots
+          onClick={() => setDropDown(true)}
+          className={styles.more}
+        />
+      </section>
+
+      {dropDown && (
+        <div ref={domNode} className={styles.dropdown}>
+          <ul>
+            <li onClick={() => signOut(auth)} className={styles.item}>
+              Log out
+            </li>
+          </ul>
+        </div>
+      )}
+    </nav>
   );
 };

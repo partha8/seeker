@@ -16,10 +16,11 @@
   --font-color-tint2: var(--clr-grey-400);
 
   --border-color: var(--clr-grey-40);
-  --bg-color: #121212;
+  --bg-color: #000;
   --secondary-color: #1f1f1f;
   --secondary-color-a6: rgba(31, 31, 31, 0.6);
   --card-color: #2e2e2e;
+  --card-color-a55: rgba(46, 46, 46, 0.55);
   --light-card-color: #F2F2F2;
   --quaternary-color: #333333;
   --hover-color: #363636;
@@ -35,7 +36,7 @@
   --transition-two: 0.3s ease-in-out all;
   --borderRadius: 10px;
   --letterSpacing: 1px;
-  --max-width: 1120px;
+  --max-width: 1250px;
   --fixed-width: 500px;
   --fluid-width: 90vw;
 }
@@ -73,6 +74,8 @@ body {
   display: flex;
   height: 100%;
   gap: 10px;
+  max-width: var(--max-width);
+  margin: auto;
 }
 
 .btn {
@@ -159,7 +162,11 @@ body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  position: relative;
+  border-left: 1px solid var(--font-color-tint2);
+  border-right: 1px solid var(--font-color-tint2);
+  margin: 0 2rem;
+  padding: 0 0.5rem;
 }
 
 .avatar-standard {
@@ -201,4 +208,12 @@ body {
 
 .item:hover {
   background: var(--hover-color);
+}
+
+.title {
+  padding: 0.5rem;
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10;
 }
