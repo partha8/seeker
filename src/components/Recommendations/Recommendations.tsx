@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { followHandler } from "../../features/authSlice";
 import { OtherUsers } from "../../types/auth.types";
@@ -11,11 +11,12 @@ export const Recommendations = () => {
   const { allUsers, id, userDetails } = useAppSelector((store) => store.auth);
   const [shuffledUsers, setShuffledUsers] = useState<OtherUsers[]>([]);
 
+  const location = useLocation();
   useEffect(() => {
     setShuffledUsers(() =>
       shuffleArray(allUsers.filter((user) => user.id !== id))
     );
-  }, []);
+  }, [location, id, userDetails?.userName]);
 
   const dispatch = useAppDispatch();
   return (

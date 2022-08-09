@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Navbar, PostCard, Recommendations, Sidebar } from "../../components";
+import { PostCard } from "../../components";
 import { getPosts } from "../../features/postsSlice";
 
 export const Explore = () => {
@@ -13,21 +13,17 @@ export const Explore = () => {
 
   return (
     <>
-      <div className="container">
-        <Sidebar />
-        <main className="main-container">
-          <h4 className="title">Explore</h4>
+      <main className="main-container">
+        <h4 className="title">Explore</h4>
 
-          {postsLoading ? (
-            <h2>Loading...</h2>
-          ) : (
-            posts?.map((post) => {
-              return <PostCard key={post.postID} {...post} />;
-            })
-          )}
-        </main>
-        <Recommendations />
-      </div>
+        {postsLoading ? (
+          <h2>Loading...</h2>
+        ) : (
+          posts?.map((post) => {
+            return <PostCard key={post.postID} {...post} />;
+          })
+        )}
+      </main>
     </>
   );
 };

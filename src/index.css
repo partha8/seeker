@@ -159,7 +159,9 @@ body {
 }
 
 .main-container {
-  flex-grow: 1;
+  flex: 1;
+  /* min-width: 30rem; */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;

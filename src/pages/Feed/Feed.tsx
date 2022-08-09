@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Navbar, PostCard, Recommendations, Sidebar } from "../../components";
+import { PostCard } from "../../components";
 import { getPosts } from "../../features/postsSlice";
 import { useFilterPosts } from "../../hooks/useFilterPosts";
 import styles from "./feed.module.css";
@@ -25,42 +25,38 @@ export const Feed = () => {
   const sortedPosts = useFilterPosts(filteredPosts, sortBy);
 
   return (
-    <div>
-      <div className="container">
-        <Sidebar />
-        <main className="main-container">
-          <h4 className="title">Home</h4>
+    <>
+      <main className="main-container">
+        <h4 className="title">Home</h4>
 
-          <section className={styles.filterSection}>
-            <button
-              onClick={() =>
-                sortBy === "LATEST" ? setSortBy("OLDEST") : setSortBy("LATEST")
-              }
-              className={`${styles.filterbtn} ${
-                (sortBy === "LATEST" || sortBy === "OLDEST") && styles.active
-              } `}
-            >
-              {sortBy === "LATEST" ? "Oldest" : "Latest"}
-            </button>
-            <button
-              onClick={() => setSortBy("TRENDING")}
-              className={`${styles.filterbtn} ${
-                sortBy === "TRENDING" && styles.active
-              }`}
-            >
-              Trending
-            </button>
-          </section>
-          {postsLoading ? (
-            <h2>Loading...</h2>
-          ) : (
-            sortedPosts?.map((post) => {
-              return <PostCard key={post.postID} {...post} />;
-            })
-          )}
-        </main>
-        <Recommendations />
-      </div>
-    </div>
+        <section className={styles.filterSection}>
+          <button
+            onClick={() =>
+              sortBy === "LATEST" ? setSortBy("OLDEST") : setSortBy("LATEST")
+            }
+            className={`${styles.filterbtn} ${
+              (sortBy === "LATEST" || sortBy === "OLDEST") && styles.active
+            } `}
+          >
+            {sortBy === "LATEST" ? "Oldest" : "Latest"}
+          </button>
+          <button
+            onClick={() => setSortBy("TRENDING")}
+            className={`${styles.filterbtn} ${
+              sortBy === "TRENDING" && styles.active
+            }`}
+          >
+            Trending
+          </button>
+        </section>
+        {postsLoading ? (
+          <h2>Loading...</h2>
+        ) : (
+          sortedPosts?.map((post) => {
+            return <PostCard key={post.postID} {...post} />;
+          })
+        )}
+      </main>
+    </>
   );
 };

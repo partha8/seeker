@@ -1,6 +1,6 @@
 import { BsPersonCircle } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Navbar, Sidebar } from "../../components";
+import {  Sidebar } from "../../components";
 import { followHandler } from "../../features/authSlice";
 import styles from "./people.module.css";
 
@@ -10,8 +10,7 @@ export const People = () => {
   const dispatch = useAppDispatch();
   return (
     <>
-      <div className="container">
-        <Sidebar />
+
         <main className="main-container">
           <h4 className="title">People</h4>
 
@@ -52,7 +51,6 @@ export const People = () => {
             );
           })}
         </main>
-      </div>
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Navbar, PostCard, Recommendations, Sidebar } from "../../components";
+import {PostCard } from "../../components";
 import { getBookmarkedPosts } from "../../features/postsSlice";
 
 export const Bookmark = () => {
@@ -14,19 +14,15 @@ export const Bookmark = () => {
   }, []);
   return (
     <>
-      <div className="container">
-        <Sidebar />
-        <main className="main-container">
-          {bookmarkedPostsLoading ? (
-            <h2>Loading...</h2>
-          ) : (
-            bookmarkedPosts?.map((post) => {
-              return <PostCard key={post.postID} {...post} />;
-            })
-          )}
-        </main>
-        <Recommendations />
-      </div>
+      <main className="main-container">
+        {bookmarkedPostsLoading ? (
+          <h2>Loading...</h2>
+        ) : (
+          bookmarkedPosts?.map((post) => {
+            return <PostCard key={post.postID} {...post} />;
+          })
+        )}
+      </main>
     </>
   );
 };

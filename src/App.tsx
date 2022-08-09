@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAuthObserver } from "./hooks/useAuthObserver";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import {
   Bookmark,
   Explore,
@@ -12,7 +12,12 @@ import {
   Profile,
   Signup,
 } from "./pages";
-import { InputModal, RequireAuth } from "./components";
+import {
+  InputModal,
+  Recommendations,
+  RequireAuth,
+  Sidebar,
+} from "./components";
 import { useGetAllUser } from "./hooks/useGetAllUser";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { getUserDetails } from "./features/authSlice";
@@ -28,10 +33,17 @@ export const App = () => {
     if (id) {
       dispatch(getUserDetails(id));
     }
-  }, [id, posts]);
+  }, [id]);
 
+  const location = useLocation();
   return (
-    <>
+    <div
+      className={`${
+        location.pathname !== "/login" &&
+        location.pathname !== "/signup" &&
+        "container"
+      }`}
+    >
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -45,7 +57,7 @@ export const App = () => {
       />
 
       <InputModal />
-
+      {id && <Sidebar />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -57,6 +69,7 @@ export const App = () => {
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
-    </>
+      {id && <Recommendations />}
+    </div>
   );
 };

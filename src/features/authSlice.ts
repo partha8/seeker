@@ -27,7 +27,7 @@ import {
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 import { store } from "../app/store";
-import { handleBookmark } from "./postsSlice";
+import { handleBookmark, handleLike } from "./postsSlice";
 
 const initialState: AuthState = {
   userDetails: null,
@@ -209,12 +209,23 @@ const authSlice = createSlice({
           return user as OtherUsers;
         });
       })
+
+      //case for bookmarked posts
       .addCase(handleBookmark.fulfilled, (state, action) => {
         state.userDetails!.bookmarkedPosts = action.payload.bookmarkPostExists
           ? state.userDetails!.bookmarkedPosts.filter(
               (postID) => postID !== action.payload.post.postID
             )
           : [...state.userDetails!.bookmarkedPosts, action.payload.post.postID];
+      })
+
+      //case for liking/disliking posts
+      .addCase(handleLike.fulfilled, (state, action) => {
+        state.userDetails!.likedPosts = action.payload.likedPostExists
+          ? state.userDetails!.likedPosts.filter(
+              (postID) => postID !== action.payload.postID
+            )
+          : [...state.userDetails!.likedPosts, action.payload.postID];
       })
 
       // profile update
