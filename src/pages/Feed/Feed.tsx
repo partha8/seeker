@@ -6,6 +6,7 @@ import { useFilterPosts } from "../../hooks/useFilterPosts";
 import styles from "./feed.module.css";
 
 export const Feed = () => {
+  const [postNumber, setPostNumber] = useState(0);
   const { postsLoading, posts } = useAppSelector((store) => store?.posts);
   const auth = useAppSelector((store) => store.auth);
 
@@ -14,7 +15,7 @@ export const Feed = () => {
   const [sortBy, setSortBy] = useState("LATEST");
 
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(getPosts(postNumber));
   }, []);
 
   const filteredPosts = posts.filter(

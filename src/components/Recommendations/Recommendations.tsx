@@ -27,7 +27,7 @@ export const Recommendations = () => {
       {shuffledUsers.slice(0, 4).map((user: OtherUsers) => {
         const { id, photo, displayName, userName } = user;
         return (
-          <div className={styles.userContainer}>
+          <div key={id} className={styles.userContainer}>
             {photo ? (
               <img className="avatar avatar-standard" src={photo} alt="gojo" />
             ) : (

@@ -12,9 +12,11 @@ export const Profile = () => {
   const usersPosts = posts.filter((post) => post.uid === id);
   const dispatch = useAppDispatch();
 
+  const [postNumber, setPostNumber] = useState(0);
+
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(getPosts(postNumber));
     dispatch(getUserDetails(id));
   }, []);
 
