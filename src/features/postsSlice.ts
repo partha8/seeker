@@ -40,6 +40,43 @@ export const getPosts = createAsyncThunk(
     const { posts } = store.getState();
     try {
       let newPosts = [];
+      const q = query(collection(db, "posts"), orderBy("createdAt"), limit(5));
+      let lastDoc = null;
+      const postsSnapShot = await getDocs(q);
+      for await (const feedPost of postsSnapShot.docs) {
+        const userSnapshot = await getDoc(
+          doc(db, "users", feedPost.data().uid)
+        );
+        newPosts.push({
+          postID: feedPost.id,
+          displayName: userSnapshot.data()?.displayName,
+          photo: userSnapshot.data()?.photo,
+          userName: userSnapshot.data()?.userName,
+          ...feedPost.data(),
+        });
+      }
+
+      lastDoc = postsSnapShot.docs[postsSnapShot.docs.length - 1];
+
+      // newPosts = newPosts.sort(
+      //   (a: any, b: any) => b["createdAt"] - a["createdAt"]
+      // );
+      // newPosts = [...newPosts, ...posts.posts];
+
+      return { newPosts, lastDoc } as { newPosts: Posts[]; lastDoc: any };
+    } catch (error: any) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getNewPosts = createAsyncThunk(
+  "posts/getNewPosts",
+  async (latestDoc: any, thunkAPI) => {
+    const { posts } = store.getState();
+    try {
+      let newPosts = [];
       const q = query(
         collection(db, "posts"),
         orderBy("createdAt"),
@@ -63,10 +100,10 @@ export const getPosts = createAsyncThunk(
 
       lastDoc = postsSnapShot.docs[postsSnapShot.docs.length - 1];
 
-      newPosts = newPosts.sort(
-        (a: any, b: any) => b["createdAt"] - a["createdAt"]
-      );
-      newPosts = [...newPosts, ...posts.posts];
+      // newPosts = newPosts.sort(
+      //   (a: any, b: any) => b["createdAt"] - a["createdAt"]
+      // );
+      newPosts = [...posts.posts, ...newPosts];
 
       return { newPosts, lastDoc } as { newPosts: Posts[]; lastDoc: any };
     } catch (error: any) {
@@ -273,6 +310,11 @@ const postsSlice = createSlice({
         // state.posts = [...state.posts, ...action.payload.newPosts];
         state.latestDoc = action.payload.lastDoc;
         state.postsLoading = false;
+      })
+
+      .addCase(getNewPosts.fulfilled, (state, action) => {
+        state.posts = action.payload.newPosts;
+        state.latestDoc = action.payload.lastDoc;
       })
 
       // add a new post

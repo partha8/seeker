@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard } from "../../components";
-import { getPosts, setLastDoc } from "../../features/postsSlice";
+import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export const Explore = () => {
@@ -18,8 +18,7 @@ export const Explore = () => {
   }, []);
 
   const fetchDataHandler = () => {
-    console.log(latestDoc);
-    dispatch(getPosts(latestDoc));
+    dispatch(getNewPosts(latestDoc));
   };
 
   return (
