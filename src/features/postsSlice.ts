@@ -6,8 +6,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  endAt,
-  endBefore,
   getDoc,
   getDocs,
   limit,
@@ -37,10 +35,13 @@ const initialState: PostState = {
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
   async (latestDoc: any, thunkAPI) => {
-    const { posts } = store.getState();
     try {
       let newPosts = [];
-      const q = query(collection(db, "posts"), orderBy("createdAt"), limit(5));
+      const q = query(
+        collection(db, "posts"),
+        orderBy("createdAt", "desc"),
+        limit(5)
+      );
       let lastDoc = null;
       const postsSnapShot = await getDocs(q);
       for await (const feedPost of postsSnapShot.docs) {
@@ -58,11 +59,6 @@ export const getPosts = createAsyncThunk(
 
       lastDoc = postsSnapShot.docs[postsSnapShot.docs.length - 1];
 
-      // newPosts = newPosts.sort(
-      //   (a: any, b: any) => b["createdAt"] - a["createdAt"]
-      // );
-      // newPosts = [...newPosts, ...posts.posts];
-
       return { newPosts, lastDoc } as { newPosts: Posts[]; lastDoc: any };
     } catch (error: any) {
       console.error(error);
@@ -79,7 +75,7 @@ export const getNewPosts = createAsyncThunk(
       let newPosts = [];
       const q = query(
         collection(db, "posts"),
-        orderBy("createdAt"),
+        orderBy("createdAt", "desc"),
         startAfter(latestDoc),
         limit(5)
       );
@@ -100,9 +96,6 @@ export const getNewPosts = createAsyncThunk(
 
       lastDoc = postsSnapShot.docs[postsSnapShot.docs.length - 1];
 
-      // newPosts = newPosts.sort(
-      //   (a: any, b: any) => b["createdAt"] - a["createdAt"]
-      // );
       newPosts = [...posts.posts, ...newPosts];
 
       return { newPosts, lastDoc } as { newPosts: Posts[]; lastDoc: any };
@@ -307,7 +300,6 @@ const postsSlice = createSlice({
       })
       .addCase(getPosts.fulfilled, (state, action) => {
         state.posts = action.payload.newPosts;
-        // state.posts = [...state.posts, ...action.payload.newPosts];
         state.latestDoc = action.payload.lastDoc;
         state.postsLoading = false;
       })

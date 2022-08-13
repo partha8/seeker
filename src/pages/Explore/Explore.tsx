@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard } from "../../components";
 import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
@@ -25,14 +25,6 @@ export const Explore = () => {
     <>
       <main className="main-container">
         <h4 className="title">Explore</h4>
-
-        {/* {postsLoading ? (
-          <h2>Loading...</h2>
-        ) : (
-          posts?.map((post) => {
-            return <PostCard key={post.postID} {...post} />;
-          })
-        )} */}
 
         {postsLoading ? (
           <h2>Loading...</h2>
