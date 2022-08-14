@@ -116,7 +116,7 @@ export const Profile = () => {
 
         {loader && !postsLoading && <PostLoader />}
 
-        {emptyFeedMessage && <h2>Start following people now!</h2>}
+        {emptyFeedMessage && <h2>Start posting already!</h2>}
 
         <ProfileEditModal
           setShowModal={() => setShowModal(false)}

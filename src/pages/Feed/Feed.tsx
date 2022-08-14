@@ -58,7 +58,6 @@ export const Feed = () => {
     }
   }, [latestDoc]);
 
-  console.log(latestDoc, "latestDoc");
 
   return (
     <>

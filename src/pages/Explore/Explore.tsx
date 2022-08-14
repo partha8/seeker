@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader } from "../../components";
 import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
@@ -9,8 +9,6 @@ export const Explore = () => {
     (store) => store?.posts
   );
 
-  console.log(latestDoc, "latestDoc");
-
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setLastDoc());
@@ -20,6 +18,22 @@ export const Explore = () => {
   const fetchDataHandler = () => {
     dispatch(getNewPosts(latestDoc));
   };
+
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    if (
+      latestDoc !== null &&
+      posts.length !== 0 &&
+      !postsLoading &&
+      document.body.clientHeight === window.innerHeight
+    ) {
+      dispatch(getNewPosts(latestDoc));
+      setLoader(true);
+    } else {
+      setLoader(false);
+    }
+  }, [latestDoc]);
 
   return (
     <>
@@ -45,6 +59,7 @@ export const Explore = () => {
             })}
           </InfiniteScroll>
         )}
+        {loader && !postsLoading && <PostLoader />}
       </main>
     </>
   );
