@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { PostCard } from "../../components";
-import { getPosts } from "../../features/postsSlice";
+import { PostCard, PostLoader } from "../../components";
+import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
 import { useFilterPosts } from "../../hooks/useFilterPosts";
 import styles from "./feed.module.css";
 
 export const Feed = () => {
-  const { postsLoading, posts } = useAppSelector((store) => store?.posts);
+  const { postsLoading, posts, latestDoc } = useAppSelector(
+    (store) => store?.posts
+  );
   const auth = useAppSelector((store) => store.auth);
 
   const dispatch = useAppDispatch();
 
   const [sortBy, setSortBy] = useState("LATEST");
+  const [loader, setLoader] = useState(false);
+  const [emptyFeedMessage, setEmptyFeedMessage] = useState(false);
 
   useEffect(() => {
-    dispatch(getPosts());
+    dispatch(setLastDoc());
+    dispatch(getPosts(latestDoc));
   }, []);
+
+  const fetchDataHandler = () => {
+    dispatch(getNewPosts(latestDoc));
+  };
 
   const filteredPosts = posts.filter(
     (post) =>
@@ -23,6 +33,31 @@ export const Feed = () => {
       auth.userDetails?.following.some((user) => user === post.uid)
   );
   const sortedPosts = useFilterPosts(filteredPosts, sortBy);
+
+  useEffect(() => {
+    if (
+      latestDoc !== null &&
+      posts.length !== 0 &&
+      !postsLoading &&
+      document.body.clientHeight === window.innerHeight
+    ) {
+      dispatch(getNewPosts(latestDoc));
+      setLoader(true);
+    } else {
+      setLoader(false);
+    }
+
+    if (
+      sortedPosts.length === 0 &&
+      document.body.clientHeight === window.innerHeight &&
+      latestDoc === undefined
+    ) {
+      setEmptyFeedMessage(true);
+    } else {
+      setEmptyFeedMessage(false);
+    }
+  }, [latestDoc]);
+
 
   return (
     <>
@@ -49,13 +84,29 @@ export const Feed = () => {
             Trending
           </button>
         </section>
+
         {postsLoading ? (
-          <h2>Loading...</h2>
+          <PostLoader />
         ) : (
-          sortedPosts?.map((post) => {
-            return <PostCard key={post.postID} {...post} />;
-          })
+          <InfiniteScroll
+            dataLength={posts.length} //This is important field to render the next data
+            next={fetchDataHandler}
+            hasMore={latestDoc === undefined ? false : true}
+            loader={<PostLoader />}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <h4>Yay! You have seen it all</h4>
+              </p>
+            }
+          >
+            {sortedPosts?.map((post) => {
+              return <PostCard key={post.postID} {...post} />;
+            })}
+          </InfiniteScroll>
         )}
+        {loader && !postsLoading && <PostLoader />}
+
+        {emptyFeedMessage && <h4>Start following people now!</h4>}
       </main>
     </>
   );

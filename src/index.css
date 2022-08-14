@@ -73,7 +73,6 @@ body {
 .container {
   display: flex;
   height: 100%;
-  gap: 10px;
   max-width: var(--max-width);
   margin: auto;
 }
@@ -160,7 +159,6 @@ body {
 
 .main-container {
   flex: 1;
-  /* min-width: 30rem; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -218,4 +216,32 @@ body {
   top: 0;
   background: rgba(0, 0, 0, 0.85);
   z-index: 10;
+}
+
+@media screen and (max-width:1100px) {
+  .main-container {
+    margin: 0 1rem;
+  }
+}
+
+@media screen and (max-width:950px) {
+  .main-container {
+    border-right: none;
+  }
+}
+
+@media screen and (max-width:600px) {
+  .main-container {
+    margin: 0 0.5rem;
+  }
+}
+
+.react-loading-skeleton {
+  background: #2e2e2e;
+  box-shadow: inset 4px 4px 6px var(--secondary-color),
+    inset -4px -4px 6px var(--secondary-color)
+}
+
+.react-loading-skeleton::after {
+  background-image: linear-gradient(90deg, var(--card-color), rgba(29, 156, 240, 0.776), var(--card-color))
 }

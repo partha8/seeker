@@ -23,7 +23,6 @@ import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { getUserDetails } from "./features/authSlice";
 
 export const App = () => {
-  const { posts } = useAppSelector((store) => store.posts);
   const { id } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
   useAuthObserver();
