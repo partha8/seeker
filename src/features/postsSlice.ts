@@ -287,7 +287,6 @@ const postsSlice = createSlice({
     },
     setPosts(state, action) {
       state.posts = action.payload;
-      console.log(state.posts);
     },
     setLastDoc(state) {
       state.latestDoc = null;
