@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+.welcome {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Merriweather', serif;
+    background: linear-gradient(150deg, hwb(220 29% 6%), rgb(81, 30, 157) 28%, rgb(34, 21, 100) 57%, rgb(15, 15, 62) 79%, hsl(235deg 67% 10%) 92%, hsl(228deg 71% 8%) 100%);
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.logo h1 {
+    font-size: 4rem;
+}
+
+.icon {
+    font-size: 4rem;
+    color: var(--primary-color);
+}
+
+.headline {
+    margin-bottom: 1rem;
+    width: 60%;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+
+
+.btnContainer {
+    display: flex;
+    gap: 1rem;
+}
+
+.btnContainer button {
+    font-size: 1.4rem;
+}

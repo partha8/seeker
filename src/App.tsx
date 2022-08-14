@@ -11,6 +11,7 @@ import {
   People,
   Profile,
   Signup,
+  Welcome,
 } from "./pages";
 import {
   InputModal,
@@ -40,6 +41,7 @@ export const App = () => {
       className={`${
         location.pathname !== "/login" &&
         location.pathname !== "/signup" &&
+        location.pathname !== "/welcome" &&
         "container"
       }`}
     >
@@ -58,6 +60,7 @@ export const App = () => {
       <InputModal />
       {id && <Sidebar />}
       <Routes>
+        <Route path="/welcome" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route element={<RequireAuth />}>
