@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {PostCard } from "../../components";
+import { PostCard, PostLoader } from "../../components";
 import { getBookmarkedPosts } from "../../features/postsSlice";
 
 export const Bookmark = () => {
@@ -16,7 +16,7 @@ export const Bookmark = () => {
     <>
       <main className="main-container">
         {bookmarkedPostsLoading ? (
-          <h2>Loading...</h2>
+          <PostLoader />
         ) : (
           bookmarkedPosts?.map((post) => {
             return <PostCard key={post.postID} {...post} />;

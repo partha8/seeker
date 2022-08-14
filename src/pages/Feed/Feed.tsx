@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { PostCard } from "../../components";
+import { PostCard, PostLoader } from "../../components";
 import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
 import { useFilterPosts } from "../../hooks/useFilterPosts";
 import styles from "./feed.module.css";
@@ -87,16 +87,16 @@ export const Feed = () => {
         </section>
 
         {postsLoading ? (
-          <h2>Loading...</h2>
+          <PostLoader />
         ) : (
           <InfiniteScroll
             dataLength={posts.length} //This is important field to render the next data
             next={fetchDataHandler}
             hasMore={latestDoc === undefined ? false : true}
-            loader={<h4>Loading...</h4>}
+            loader={<PostLoader />}
             endMessage={
               <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
+                <h4>Yay! You have seen it all</h4>
               </p>
             }
           >
@@ -105,10 +105,9 @@ export const Feed = () => {
             })}
           </InfiniteScroll>
         )}
+        {loader && !postsLoading && <PostLoader />}
 
-        {loader && !postsLoading && <h2>Loading more posts...wait a min</h2>}
-
-        {emptyFeedMessage && <h2>Start following people now!</h2>}
+        {emptyFeedMessage && <h4>Start following people now!</h4>}
       </main>
     </>
   );

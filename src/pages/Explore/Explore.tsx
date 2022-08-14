@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { PostCard } from "../../components";
+import { PostCard, PostLoader } from "../../components";
 import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -27,16 +27,16 @@ export const Explore = () => {
         <h4 className="title">Explore</h4>
 
         {postsLoading ? (
-          <h2>Loading...</h2>
+          <PostLoader />
         ) : (
           <InfiniteScroll
             dataLength={posts.length} //This is important field to render the next data
             next={fetchDataHandler}
             hasMore={latestDoc === undefined ? false : true}
-            loader={<h4>Loading...</h4>}
+            loader={<PostLoader />}
             endMessage={
               <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
+                <h4>Yay! You have seen it all</h4>
               </p>
             }
           >

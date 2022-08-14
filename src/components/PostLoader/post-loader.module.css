@@ -1,0 +1,47 @@
+.postContainer {
+    box-shadow: var(--dark-shadow);
+    border-bottom: 1px solid var(--clr-grey-100);
+    border-top: 1px solid var(--clr-grey-100);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin-top: 1.2rem;
+    position: relative;
+    border-radius: 10px;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.8;
+}
+
+
+.postAccountDetails {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.timedate {
+    font-size: 0.6rem;
+    display: flex;
+    gap: 10px;
+}
+
+.postAccountDetails,
+.post,
+.buttons {
+    padding: 0.5rem;
+
+}
+
+.text {
+    line-height: 0.8;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+}
