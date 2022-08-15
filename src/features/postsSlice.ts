@@ -30,6 +30,7 @@ const initialState: PostState = {
   bookmarkedPosts: [],
   bookmarkedPostsLoading: false,
   latestDoc: 0,
+  newPostsLoading: false,
 };
 
 export const getPosts = createAsyncThunk(
@@ -379,9 +380,13 @@ const postsSlice = createSlice({
         state.postsLoading = false;
       })
 
+      .addCase(getNewPosts.pending, (state) => {
+        state.newPostsLoading = true;
+      })
       .addCase(getNewPosts.fulfilled, (state, action) => {
         state.posts = action.payload.newPosts;
         state.latestDoc = action.payload.lastDoc;
+        state.newPostsLoading = false;
       })
 
       .addCase(getUserPosts.pending, (state) => {
@@ -394,9 +399,13 @@ const postsSlice = createSlice({
         state.postsLoading = false;
       })
 
+      .addCase(getNewUserPosts.pending, (state) => {
+        state.newPostsLoading = true;
+      })
       .addCase(getNewUserPosts.fulfilled, (state, action) => {
         state.posts = action.payload.newPosts;
         state.latestDoc = action.payload.lastDoc;
+        state.newPostsLoading = false;
       })
       // add a new post
       .addCase(addNewPost.fulfilled, (state, action) => {

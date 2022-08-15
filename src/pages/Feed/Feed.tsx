@@ -7,7 +7,7 @@ import { useFilterPosts } from "../../hooks/useFilterPosts";
 import styles from "./feed.module.css";
 
 export const Feed = () => {
-  const { postsLoading, posts, latestDoc } = useAppSelector(
+  const { postsLoading, posts, latestDoc, newPostsLoading } = useAppSelector(
     (store) => store?.posts
   );
   const auth = useAppSelector((store) => store.auth);
@@ -15,7 +15,6 @@ export const Feed = () => {
   const dispatch = useAppDispatch();
 
   const [sortBy, setSortBy] = useState("LATEST");
-  const [loader, setLoader] = useState(false);
   const [emptyFeedMessage, setEmptyFeedMessage] = useState(false);
 
   useEffect(() => {
@@ -36,15 +35,12 @@ export const Feed = () => {
 
   useEffect(() => {
     if (
-      latestDoc !== null &&
+      latestDoc &&
       posts.length !== 0 &&
       !postsLoading &&
       document.body.clientHeight === window.innerHeight
     ) {
       dispatch(getNewPosts(latestDoc));
-      setLoader(true);
-    } else {
-      setLoader(false);
     }
 
     if (
@@ -103,11 +99,14 @@ export const Feed = () => {
             })}
           </InfiniteScroll>
         )}
-        {(loader && !postsLoading) ||
+        {/* {(loader && !postsLoading) ||
           (latestDoc !== undefined &&
             document.body.clientHeight === window.innerHeight && (
               <PostLoader />
-            ))}
+            ))} */}
+        {/* {loader && !postsLoading && <PostLoader />} */}
+
+        {newPostsLoading && <PostLoader />}
 
         {emptyFeedMessage && <h4>Start following people now!</h4>}
       </main>

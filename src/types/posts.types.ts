@@ -21,4 +21,5 @@ export type PostState = {
   bookmarkedPosts: Posts[];
   bookmarkedPostsLoading: boolean;
   latestDoc: any;
+  newPostsLoading: boolean;
 };

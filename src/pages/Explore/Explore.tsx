@@ -5,7 +5,7 @@ import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export const Explore = () => {
-  const { postsLoading, posts, latestDoc } = useAppSelector(
+  const { postsLoading, posts, latestDoc, newPostsLoading } = useAppSelector(
     (store) => store?.posts
   );
 
@@ -19,8 +19,6 @@ export const Explore = () => {
     dispatch(getNewPosts(latestDoc));
   };
 
-  const [loader, setLoader] = useState(false);
-
   useEffect(() => {
     if (
       latestDoc !== null &&
@@ -29,9 +27,6 @@ export const Explore = () => {
       document.body.clientHeight === window.innerHeight
     ) {
       dispatch(getNewPosts(latestDoc));
-      setLoader(true);
-    } else {
-      setLoader(false);
     }
   }, [latestDoc]);
 
@@ -59,7 +54,7 @@ export const Explore = () => {
             })}
           </InfiniteScroll>
         )}
-        {loader && !postsLoading && <PostLoader />}
+        {newPostsLoading && <PostLoader />}
       </main>
     </>
   );

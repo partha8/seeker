@@ -15,14 +15,13 @@ import styles from "./profile.module.css";
 
 export const Profile = () => {
   const { userDetails, id } = useAppSelector((store) => store.auth);
-  const { posts, postsLoading, latestDoc } = useAppSelector(
+  const { posts, postsLoading, latestDoc, newPostsLoading } = useAppSelector(
     (store) => store.posts
   );
 
   const dispatch = useAppDispatch();
 
   const [showModal, setShowModal] = useState(false);
-  const [loader, setLoader] = useState(false);
   const [emptyFeedMessage, setEmptyFeedMessage] = useState(false);
 
   useEffect(() => {
@@ -39,10 +38,7 @@ export const Profile = () => {
       document.body.clientHeight === window.innerHeight
     ) {
       dispatch(getNewUserPosts({ latestDoc, id }));
-      setLoader(true);
-    } else {
-      setLoader(false);
-    }
+    } 
 
     if (
       posts.length === 0 &&
@@ -120,7 +116,7 @@ export const Profile = () => {
           </InfiniteScroll>
         )}
 
-        {loader && !postsLoading && <PostLoader />}
+        {newPostsLoading && <PostLoader />}
 
         {emptyFeedMessage && <h2>Start posting already!</h2>}
 
