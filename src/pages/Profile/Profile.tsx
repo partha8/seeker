@@ -4,7 +4,13 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader, ProfileEditModal } from "../../components";
 import { getUserDetails } from "../../features/authSlice";
-import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
+import {
+  getNewPosts,
+  getNewUserPosts,
+  getPosts,
+  getUserPosts,
+  setLastDoc,
+} from "../../features/postsSlice";
 import styles from "./profile.module.css";
 
 export const Profile = () => {
@@ -12,7 +18,7 @@ export const Profile = () => {
   const { posts, postsLoading, latestDoc } = useAppSelector(
     (store) => store.posts
   );
-  const usersPosts = posts.filter((post) => post.uid === id);
+
   const dispatch = useAppDispatch();
 
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +27,7 @@ export const Profile = () => {
 
   useEffect(() => {
     dispatch(setLastDoc());
-    dispatch(getPosts(latestDoc));
+    dispatch(getUserPosts(id));
     dispatch(getUserDetails(id));
   }, []);
 
@@ -32,14 +38,14 @@ export const Profile = () => {
       !postsLoading &&
       document.body.clientHeight === window.innerHeight
     ) {
-      dispatch(getNewPosts(latestDoc));
+      dispatch(getNewUserPosts({ latestDoc, id }));
       setLoader(true);
     } else {
       setLoader(false);
     }
 
     if (
-      usersPosts.length === 0 &&
+      posts.length === 0 &&
       document.body.clientHeight === window.innerHeight &&
       latestDoc === undefined
     ) {
@@ -99,7 +105,7 @@ export const Profile = () => {
         ) : (
           <InfiniteScroll
             dataLength={posts.length} //This is important field to render the next data
-            next={() => dispatch(getNewPosts(latestDoc))}
+            next={() => dispatch(getNewUserPosts({ latestDoc, id }))}
             hasMore={latestDoc === undefined ? false : true}
             loader={<PostLoader />}
             endMessage={
@@ -108,7 +114,7 @@ export const Profile = () => {
               </p>
             }
           >
-            {usersPosts?.map((post) => {
+            {posts?.map((post) => {
               return <PostCard key={post.postID} {...post} />;
             })}
           </InfiniteScroll>

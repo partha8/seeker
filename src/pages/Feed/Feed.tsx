@@ -58,7 +58,6 @@ export const Feed = () => {
     }
   }, [latestDoc]);
 
-
   return (
     <>
       <main className="main-container">
@@ -104,7 +103,11 @@ export const Feed = () => {
             })}
           </InfiniteScroll>
         )}
-        {loader && !postsLoading && <PostLoader />}
+        {(loader && !postsLoading) ||
+          (latestDoc !== undefined &&
+            document.body.clientHeight === window.innerHeight && (
+              <PostLoader />
+            ))}
 
         {emptyFeedMessage && <h4>Start following people now!</h4>}
       </main>

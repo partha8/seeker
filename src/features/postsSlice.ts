@@ -14,6 +14,7 @@ import {
   serverTimestamp,
   startAfter,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { Posts, PostState } from "../types/posts.types";
@@ -28,7 +29,6 @@ const initialState: PostState = {
   editPost: null,
   bookmarkedPosts: [],
   bookmarkedPostsLoading: false,
-
   latestDoc: 0,
 };
 
@@ -76,6 +76,82 @@ export const getNewPosts = createAsyncThunk(
       const q = query(
         collection(db, "posts"),
         orderBy("createdAt", "desc"),
+        startAfter(latestDoc),
+        limit(5)
+      );
+      let lastDoc = null;
+      const postsSnapShot = await getDocs(q);
+      for await (const feedPost of postsSnapShot.docs) {
+        const userSnapshot = await getDoc(
+          doc(db, "users", feedPost.data().uid)
+        );
+        newPosts.push({
+          postID: feedPost.id,
+          displayName: userSnapshot.data()?.displayName,
+          photo: userSnapshot.data()?.photo,
+          userName: userSnapshot.data()?.userName,
+          ...feedPost.data(),
+        });
+      }
+
+      lastDoc = postsSnapShot.docs[postsSnapShot.docs.length - 1];
+
+      newPosts = [...posts.posts, ...newPosts];
+
+      return { newPosts, lastDoc } as { newPosts: Posts[]; lastDoc: any };
+    } catch (error: any) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getUserPosts = createAsyncThunk(
+  "posts/getUserPosts",
+  async (id: string, thunkAPI) => {
+    try {
+      let newPosts = [];
+      const q = query(
+        collection(db, "posts"),
+        orderBy("createdAt", "desc"),
+        where("uid", "==", id),
+        limit(5)
+      );
+      let lastDoc = null;
+      const postsSnapShot = await getDocs(q);
+      for await (const feedPost of postsSnapShot.docs) {
+        const userSnapshot = await getDoc(
+          doc(db, "users", feedPost.data().uid)
+        );
+        newPosts.push({
+          postID: feedPost.id,
+          displayName: userSnapshot.data()?.displayName,
+          photo: userSnapshot.data()?.photo,
+          userName: userSnapshot.data()?.userName,
+          ...feedPost.data(),
+        });
+      }
+
+      lastDoc = postsSnapShot.docs[postsSnapShot.docs.length - 1];
+
+      return { newPosts, lastDoc } as { newPosts: Posts[]; lastDoc: any };
+    } catch (error: any) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getNewUserPosts = createAsyncThunk(
+  "posts/getNewUserPosts",
+  async ({ latestDoc, id }: any, thunkAPI) => {
+    const { posts } = store.getState();
+    try {
+      let newPosts = [];
+      const q = query(
+        collection(db, "posts"),
+        orderBy("createdAt", "desc"),
+        where("uid", "==", id),
         startAfter(latestDoc),
         limit(5)
       );
@@ -308,6 +384,20 @@ const postsSlice = createSlice({
         state.latestDoc = action.payload.lastDoc;
       })
 
+      .addCase(getUserPosts.pending, (state) => {
+        state.postsLoading = true;
+      })
+
+      .addCase(getUserPosts.fulfilled, (state, action) => {
+        state.posts = action.payload.newPosts;
+        state.latestDoc = action.payload.lastDoc;
+        state.postsLoading = false;
+      })
+
+      .addCase(getNewUserPosts.fulfilled, (state, action) => {
+        state.posts = action.payload.newPosts;
+        state.latestDoc = action.payload.lastDoc;
+      })
       // add a new post
       .addCase(addNewPost.fulfilled, (state, action) => {
         state.posts = action.payload;
