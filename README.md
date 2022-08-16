@@ -14,7 +14,7 @@
 - Firebase : 
   - Authentication : To Login and Signup Users
   - Firestore Database : To store users and posts information
-  -  Firebase Storage - To Upload images
+  - Firebase Storage - To Upload images
 - TypeScript
 
 #### Tools and Additional Framework :
@@ -23,6 +23,9 @@
 - React Router v6
 - React Toastify
 - React Icons
+- React Moment + Moment
+- React Infinite Scroll Component
+- React Loading Skeleton
 
 #### How To Run in Local - 
 Run these commands in your terminal
