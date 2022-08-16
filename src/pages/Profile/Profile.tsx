@@ -25,8 +25,6 @@ export const Profile = () => {
   const dispatch = useAppDispatch();
   const { profileID } = useParams();
 
-  console.log(newUserPostsLoading);
-
   const [showModal, setShowModal] = useState(false);
   const [emptyFeedMessage, setEmptyFeedMessage] = useState(false);
 
