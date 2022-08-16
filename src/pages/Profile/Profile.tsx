@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader, ProfileEditModal } from "../../components";
 import {
+  followHandler,
   getSelectedUserDetails,
   getUserDetails,
 } from "../../features/authSlice";
@@ -18,7 +19,9 @@ import {
 import styles from "./profile.module.css";
 
 export const Profile = () => {
-  const { selectedUserDetails, id } = useAppSelector((store) => store.auth);
+  const { userDetails, selectedUserDetails, id } = useAppSelector(
+    (store) => store.auth
+  );
   const { userPosts, latestDoc, newUserPostsLoading, userPostsLoading } =
     useAppSelector((store) => store.posts);
 
@@ -105,6 +108,23 @@ export const Profile = () => {
               Edit
             </button>
           )}
+
+          {id !== profileID &&
+            (userDetails?.following.some((user) => user === profileID) ? (
+              <button
+                onClick={() => dispatch(followHandler(profileID || ""))}
+                className="btn btn-outline"
+              >
+                Unfollow
+              </button>
+            ) : (
+              <button
+                onClick={() => dispatch(followHandler(profileID || ""))}
+                className="btn"
+              >
+                Follow
+              </button>
+            ))}
         </div>
 
         {userPostsLoading ? (
