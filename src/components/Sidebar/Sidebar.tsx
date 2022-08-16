@@ -18,7 +18,7 @@ import { GiSittingDog } from "react-icons/gi";
 
 export const Sidebar = () => {
   const [dropDown, setDropDown] = useState<Boolean>(false);
-  const { userDetails } = useAppSelector((store) => store.auth);
+  const { userDetails, id } = useAppSelector((store) => store.auth);
   const domNode = useClickOutside(() => setDropDown(false));
 
   const dispatch = useAppDispatch();
@@ -84,7 +84,7 @@ export const Sidebar = () => {
               ? `${styles.iconContainer} ${styles.active} `
               : `${styles.iconContainer}`
           }
-          to="/profile"
+          to={`/profile/${id}`}
         >
           <BsPersonCircle className={styles.icon} />
           <p className="flex-center">My Profile</p>

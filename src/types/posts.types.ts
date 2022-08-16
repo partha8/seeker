@@ -22,4 +22,8 @@ export type PostState = {
   bookmarkedPostsLoading: boolean;
   latestDoc: any;
   newPostsLoading: boolean;
+
+  userPosts: Posts[];
+  userPostsLoading: boolean;
+  newUserPostsLoading: boolean;
 };

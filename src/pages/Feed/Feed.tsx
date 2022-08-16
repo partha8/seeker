@@ -99,12 +99,6 @@ export const Feed = () => {
             })}
           </InfiniteScroll>
         )}
-        {/* {(loader && !postsLoading) ||
-          (latestDoc !== undefined &&
-            document.body.clientHeight === window.innerHeight && (
-              <PostLoader />
-            ))} */}
-        {/* {loader && !postsLoading && <PostLoader />} */}
 
         {newPostsLoading && <PostLoader />}
 

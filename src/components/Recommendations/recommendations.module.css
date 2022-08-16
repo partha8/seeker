@@ -27,6 +27,9 @@
     position: relative;
 }
 
+.displayName {
+    color: var(--font-color-light);
+}
 
 .userName {
     line-height: 0;

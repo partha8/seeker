@@ -16,7 +16,7 @@ export type OtherUsers = {
   displayName: string;
   email: string;
   userName: string;
-  photo: string ;
+  photo: string;
   id: string;
   followers: string[];
   following: string[];
@@ -31,6 +31,7 @@ export type AuthState = {
   userDetails: UserDetails | null;
   id: string;
   allUsers: OtherUsers[];
+  selectedUserDetails: UserDetails | null;
 };
 
 export type LoginDetails = {

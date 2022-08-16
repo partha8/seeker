@@ -31,6 +31,10 @@ const initialState: PostState = {
   bookmarkedPostsLoading: false,
   latestDoc: 0,
   newPostsLoading: false,
+
+  userPosts: [],
+  userPostsLoading: false,
+  newUserPostsLoading: false,
 };
 
 export const getPosts = createAsyncThunk(
@@ -173,7 +177,7 @@ export const getNewUserPosts = createAsyncThunk(
 
       lastDoc = postsSnapShot.docs[postsSnapShot.docs.length - 1];
 
-      newPosts = [...posts.posts, ...newPosts];
+      newPosts = [...posts.userPosts, ...newPosts];
 
       return { newPosts, lastDoc } as { newPosts: Posts[]; lastDoc: any };
     } catch (error: any) {
@@ -367,6 +371,8 @@ const postsSlice = createSlice({
     },
     setLastDoc(state) {
       state.latestDoc = null;
+      state.posts = [];
+      state.userPosts = [];
     },
   },
   extraReducers(builder) {
@@ -390,22 +396,22 @@ const postsSlice = createSlice({
       })
 
       .addCase(getUserPosts.pending, (state) => {
-        state.postsLoading = true;
+        state.userPostsLoading = true;
       })
 
       .addCase(getUserPosts.fulfilled, (state, action) => {
-        state.posts = action.payload.newPosts;
+        state.userPosts = action.payload.newPosts;
         state.latestDoc = action.payload.lastDoc;
-        state.postsLoading = false;
+        state.userPostsLoading = false;
       })
 
       .addCase(getNewUserPosts.pending, (state) => {
-        state.newPostsLoading = true;
+        state.newUserPostsLoading = true;
       })
       .addCase(getNewUserPosts.fulfilled, (state, action) => {
-        state.posts = action.payload.newPosts;
+        state.userPosts = action.payload.newPosts;
         state.latestDoc = action.payload.lastDoc;
-        state.newPostsLoading = false;
+        state.newUserPostsLoading = false;
       })
       // add a new post
       .addCase(addNewPost.fulfilled, (state, action) => {

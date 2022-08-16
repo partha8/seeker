@@ -24,8 +24,10 @@
     flex-wrap: wrap;
 }
 
-.postAccountDetails>* {
+.displayName,
+.userName {
     cursor: pointer;
+    color: var(--font-color-light);
 }
 
 .details {

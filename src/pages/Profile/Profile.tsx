@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader, ProfileEditModal } from "../../components";
-import { getUserDetails } from "../../features/authSlice";
+import {
+  getSelectedUserDetails,
+  getUserDetails,
+} from "../../features/authSlice";
 import {
   getNewPosts,
   getNewUserPosts,
@@ -14,34 +18,37 @@ import {
 import styles from "./profile.module.css";
 
 export const Profile = () => {
-  const { userDetails, id } = useAppSelector((store) => store.auth);
-  const { posts, postsLoading, latestDoc, newPostsLoading } = useAppSelector(
-    (store) => store.posts
-  );
+  const { selectedUserDetails, id } = useAppSelector((store) => store.auth);
+  const { userPosts, latestDoc, newUserPostsLoading, userPostsLoading } =
+    useAppSelector((store) => store.posts);
 
   const dispatch = useAppDispatch();
+  const { profileID } = useParams();
+
+  console.log(newUserPostsLoading);
 
   const [showModal, setShowModal] = useState(false);
   const [emptyFeedMessage, setEmptyFeedMessage] = useState(false);
 
   useEffect(() => {
     dispatch(setLastDoc());
-    dispatch(getUserPosts(id));
-    dispatch(getUserDetails(id));
-  }, []);
+    dispatch(getUserPosts(profileID || ""));
+    dispatch(getSelectedUserDetails(profileID || ""));
+  }, [profileID]);
 
   useEffect(() => {
     if (
-      latestDoc !== null &&
-      posts.length !== 0 &&
-      !postsLoading &&
+      latestDoc &&
+      userPosts.length !== 0 &&
+      !userPostsLoading &&
       document.body.clientHeight === window.innerHeight
     ) {
-      dispatch(getNewUserPosts({ latestDoc, id }));
-    } 
+      console.log("inside");
+      dispatch(getNewUserPosts({ latestDoc, id: profileID }));
+    }
 
     if (
-      posts.length === 0 &&
+      userPosts.length === 0 &&
       document.body.clientHeight === window.innerHeight &&
       latestDoc === undefined
     ) {
@@ -57,10 +64,10 @@ export const Profile = () => {
         <h4 className="title">Profile</h4>
 
         <div className={styles.profileContainer}>
-          {userDetails?.photo ? (
+          {selectedUserDetails?.photo ? (
             <img
               className={`avatar ${styles.profilePhoto}`}
-              src={userDetails?.photo}
+              src={selectedUserDetails?.photo}
               alt="gojo"
             />
           ) : (
@@ -69,56 +76,68 @@ export const Profile = () => {
 
           <section className={styles.profileInfo}>
             <div>
-              <p className={styles.displayName}>{userDetails?.displayName}</p>
-              <p className={styles.userName}>@{userDetails?.userName}</p>
+              <p className={styles.displayName}>
+                {selectedUserDetails?.displayName}
+              </p>
+              <p className={styles.userName}>
+                @{selectedUserDetails?.userName}
+              </p>
             </div>
 
-            <p>{userDetails?.bio}</p>
+            <p>{selectedUserDetails?.bio}</p>
 
             <div className={styles.followerFollowing}>
-              <p>{userDetails?.followers.length} Followers</p>
-              <p>{userDetails?.following.length} Following</p>
+              <p>{selectedUserDetails?.followers.length} Followers</p>
+              <p>{selectedUserDetails?.following.length} Following</p>
             </div>
 
-            {userDetails?.portfolioLink && (
+            {selectedUserDetails?.portfolioLink && (
               <a
                 className={styles.portfolioLink}
-                href={userDetails.portfolioLink}
+                href={selectedUserDetails.portfolioLink}
                 target="__blank"
               >
-                {userDetails.portfolioLink}
+                {selectedUserDetails.portfolioLink}
               </a>
             )}
           </section>
 
-          <button onClick={() => setShowModal(true)} className="btn">
-            Edit
-          </button>
+          {id === profileID && (
+            <button onClick={() => setShowModal(true)} className="btn">
+              Edit
+            </button>
+          )}
         </div>
 
-        {postsLoading ? (
+        {userPostsLoading ? (
           <PostLoader />
         ) : (
           <InfiniteScroll
-            dataLength={posts.length} //This is important field to render the next data
-            next={() => dispatch(getNewUserPosts({ latestDoc, id }))}
+            dataLength={userPosts.length} //This is important field to render the next data
+            next={() => dispatch(getNewUserPosts({ latestDoc, id: profileID }))}
             hasMore={latestDoc === undefined ? false : true}
             loader={<PostLoader />}
             endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
+              !emptyFeedMessage && (
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              )
             }
           >
-            {posts?.map((post) => {
+            {userPosts?.map((post) => {
               return <PostCard key={post.postID} {...post} />;
             })}
           </InfiniteScroll>
         )}
 
-        {newPostsLoading && <PostLoader />}
+        {newUserPostsLoading && <PostLoader />}
 
-        {emptyFeedMessage && <h2>Start posting already!</h2>}
+        {emptyFeedMessage && id === profileID && (
+          <h2>Start posting already!</h2>
+        )}
+
+        {emptyFeedMessage && id !== profileID && <h2>Wow... so empty..</h2>}
 
         <ProfileEditModal
           setShowModal={() => setShowModal(false)}

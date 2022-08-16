@@ -21,7 +21,7 @@ export const Explore = () => {
 
   useEffect(() => {
     if (
-      latestDoc !== null &&
+      latestDoc &&
       posts.length !== 0 &&
       !postsLoading &&
       document.body.clientHeight === window.innerHeight

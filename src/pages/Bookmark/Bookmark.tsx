@@ -15,6 +15,8 @@ export const Bookmark = () => {
   return (
     <>
       <main className="main-container">
+        <h4 className="title">Bookmarks</h4>
+
         {bookmarkedPostsLoading ? (
           <PostLoader />
         ) : (

@@ -68,7 +68,7 @@ export const App = () => {
           <Route path="/people" element={<People />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/bookmark" element={<Bookmark />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:profileID" element={<Profile />} />
         </Route>
       </Routes>
       {id && <Recommendations />}

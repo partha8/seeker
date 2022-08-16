@@ -34,10 +34,10 @@ export const Recommendations = () => {
               <BsPersonCircle className="avatar-standard" />
             )}
 
-            <div className={styles.details}>
+            <NavLink className={styles.details} to={`/profile/${id}`}>
               <p className={styles.displayName}>{displayName}</p>
               <p className={styles.userName}>@{userName}</p>
-            </div>
+            </NavLink>
 
             {userDetails?.following.some((user) => user === id) ? (
               <button

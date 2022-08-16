@@ -9,6 +9,7 @@ import { DropDown } from "../DropDown/DropDown";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { handleLike } from "../../features/postsSlice";
 import { CommentsSection } from "../CommentsContainer/CommentsSection";
+import { NavLink } from "react-router-dom";
 
 export const PostCard = (prop: Posts) => {
   const {
@@ -37,15 +38,15 @@ export const PostCard = (prop: Posts) => {
     <div className={styles.postContainer}>
       <section className={styles.postAccountDetails}>
         {photo ? (
-          <img className="avatar avatar-standard" src={photo} alt="gojo" />
+          <img className="avatar avatar-standard" src={photo} alt="profile" />
         ) : (
           <BsPersonCircle className="avatar-standard" />
         )}
 
-        <div>
+        <NavLink to={`/profile/${uid}`}>
           <p className={styles.displayName}>{displayName}</p>
           <p className={styles.userName}>@{userName}</p>
-        </div>
+        </NavLink>
 
         <span className={styles.timedate}>
           <span>{time}</span>,<span>{date}</span>

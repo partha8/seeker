@@ -13,10 +13,13 @@
     margin-left: auto;
 }
 
+.displayName {
+    color: var(--font-color-light);
+}
+
 .userName {
     line-height: 0;
     margin-top: 5px;
     font-size: 0.8rem;
     color: var(--clr-grey-60);
 }
-

@@ -33,6 +33,7 @@ const initialState: AuthState = {
   userDetails: null,
   id: "",
   allUsers: [],
+  selectedUserDetails: null,
 };
 
 export const login = createAsyncThunk(
@@ -88,6 +89,19 @@ export const signup = createAsyncThunk(
 
 export const getUserDetails = createAsyncThunk(
   "auth/getUserDetails",
+  async (id: string, thunkAPI) => {
+    try {
+      const docData = await getDoc(doc(db, "users", id));
+      return docData.data() as UserDetails;
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getSelectedUserDetails = createAsyncThunk(
+  "auth/getSelectedUserDetails",
   async (id: string, thunkAPI) => {
     try {
       const docData = await getDoc(doc(db, "users", id));
@@ -192,6 +206,11 @@ const authSlice = createSlice({
       .addCase(getUserDetails.fulfilled, (state, action) => {
         state.userDetails = action.payload;
       })
+
+      .addCase(getSelectedUserDetails.fulfilled, (state, action) => {
+        state.selectedUserDetails = action.payload;
+      })
+      
       .addCase(followHandler.fulfilled, (state, action) => {
         state.userDetails!.following = action.payload.isFollowing
           ? state.userDetails!.following.filter(
