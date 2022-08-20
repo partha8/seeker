@@ -371,8 +371,6 @@ const postsSlice = createSlice({
     },
     setLastDoc(state) {
       state.latestDoc = null;
-      state.posts = [];
-      state.userPosts = [];
     },
   },
   extraReducers(builder) {
