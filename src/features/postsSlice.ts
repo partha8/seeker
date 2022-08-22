@@ -26,12 +26,15 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 const initialState: PostState = {
   posts: [],
   postsLoading: false,
-  postModal: false,
-  editPost: null,
-  bookmarkedPosts: [],
-  bookmarkedPostsLoading: false,
   latestDoc: 0,
   newPostsLoading: false,
+
+  likeLoading: false,
+  postModal: false,
+  editPost: null,
+
+  bookmarkedPosts: [],
+  bookmarkedPostsLoading: false,
 
   userPosts: [],
   userPostsLoading: false,
@@ -481,6 +484,9 @@ const postsSlice = createSlice({
       })
 
       // handle like
+      .addCase(handleLike.pending, (state) => {
+        state.likeLoading = true;
+      })
       .addCase(handleLike.fulfilled, (state, action) => {
         state.posts = state.posts.map((post) => {
           if (post.postID === action.payload.postID) {
@@ -517,6 +523,7 @@ const postsSlice = createSlice({
           }
           return post;
         });
+        state.likeLoading = false;
       })
 
       // add a comment

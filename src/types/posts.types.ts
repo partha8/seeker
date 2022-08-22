@@ -27,4 +27,5 @@ export type PostState = {
   userPosts: Posts[];
   userPostsLoading: boolean;
   newUserPostsLoading: boolean;
+  likeLoading: boolean;
 };
