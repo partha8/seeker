@@ -12,7 +12,8 @@
 
 .postAccountDetails,
 .post,
-.buttons {
+.buttons,
+.postPhoto {
     padding: 0.5rem;
 
 }
@@ -58,4 +59,16 @@
 .buttons {
     display: flex;
     gap: 1rem;
+}
+
+.postPhoto {
+    /* max-height: 700px; */
+    border-radius: 1rem;
+    object-fit: contain;
+}
+
+.creatorTag {
+    background: rgba(29, 103, 240, 0.5);
+    padding: 0 0.5rem;
+    border-radius: 10px;
 }

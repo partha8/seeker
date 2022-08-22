@@ -22,6 +22,7 @@ export const PostCard = (prop: Posts) => {
     postID,
     uid,
     userName,
+    postPhoto,
   } = prop;
 
   let time, date;
@@ -48,6 +49,9 @@ export const PostCard = (prop: Posts) => {
           <p className={styles.userName}>@{userName}</p>
         </NavLink>
 
+        {uid === "1NLpnRF5M9XPh1QyYfn4WAHk4i03" && (
+          <p className={styles.creatorTag}>Creator</p>
+        )}
         <span className={styles.timedate}>
           <span>{time}</span>,<span>{date}</span>
         </span>
@@ -58,12 +62,20 @@ export const PostCard = (prop: Posts) => {
         <p>{postDescription}</p>
       </section>
 
+      {postPhoto && (
+        <img src={postPhoto} alt="post" className={styles.postPhoto} />
+      )}
+
       <section className={styles.buttons}>
         <span
           onClick={() => dispatch(handleLike(postID))}
           className="icon-action"
         >
-          {likes.some((user) => user === id) ? <BsHeartFill /> : <BsHeart />}
+          {likes.some((user) => user === id) ? (
+            <BsHeartFill style={{ color: "red" }} />
+          ) : (
+            <BsHeart />
+          )}
           {likes.length}
         </span>
         <span

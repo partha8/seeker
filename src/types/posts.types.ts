@@ -6,6 +6,7 @@ export type Posts = {
   createdAt: any;
   likes: string[];
   postDescription: string;
+  postPhoto: string;
   uid: string;
   displayName: string;
   photo: string;

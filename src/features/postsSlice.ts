@@ -16,11 +16,12 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase.config";
+import { db, storage } from "../firebase.config";
 import { Posts, PostState } from "../types/posts.types";
 import { store } from "../app/store";
 import { toast } from "react-toastify";
 import { updateProfileDetails } from "./authSlice";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const initialState: PostState = {
   posts: [],
@@ -189,18 +190,38 @@ export const getNewUserPosts = createAsyncThunk(
 
 export const addNewPost = createAsyncThunk(
   "posts/addNewPost",
-  async (postDescription: string, { rejectWithValue, getState }) => {
+  async (
+    {
+      postDescription,
+      postPhoto,
+    }: { postDescription: string; postPhoto: string },
+    { rejectWithValue, getState }
+  ) => {
     const { auth, posts } = store.getState();
+    toast.info("Posting...");
+
     try {
       const createdAt = serverTimestamp();
 
       const postRef = await addDoc(collection(db, "posts"), {
         postDescription,
+        postPhoto: "",
         comments: [],
         createdAt: createdAt,
         likes: [],
         uid: auth.id,
       });
+
+      const imageRef = ref(storage, `posts/${postRef.id}/image`);
+      let downloadURL = "";
+      if (postPhoto) {
+        await uploadString(imageRef, postPhoto, "data_url").then(async () => {
+          downloadURL = await getDownloadURL(imageRef);
+          await updateDoc(doc(db, "posts", postRef.id), {
+            postPhoto: downloadURL,
+          });
+        });
+      }
 
       // update the post array in user collection
       await updateDoc(doc(db, "users", auth.id), {
@@ -209,6 +230,8 @@ export const addNewPost = createAsyncThunk(
 
       const newPostref = await getDoc(doc(db, "posts", postRef.id));
 
+      toast.success("Successfully Posted!");
+
       const post = {
         postID: postRef.id,
         uid: auth.id,
@@ -216,6 +239,7 @@ export const addNewPost = createAsyncThunk(
         createdAt: newPostref.data()?.createdAt,
         likes: [],
         postDescription,
+        postPhoto: postPhoto ? downloadURL : "",
         displayName: auth.userDetails?.displayName,
         photo: auth.userDetails?.photo,
         userName: auth.userDetails?.userName,
@@ -371,6 +395,7 @@ const postsSlice = createSlice({
     },
     setLastDoc(state) {
       state.latestDoc = null;
+      state.userPosts = [];
     },
   },
   extraReducers(builder) {
@@ -422,7 +447,10 @@ const postsSlice = createSlice({
         state.posts = state.posts.filter(
           (post) => post.postID !== action.payload
         );
-        state.bookmarkedPosts = state.posts.filter(
+        state.bookmarkedPosts = state.bookmarkedPosts.filter(
+          (post) => post.postID !== action.payload
+        );
+        state.userPosts = state.userPosts.filter(
           (post) => post.postID !== action.payload
         );
       })
@@ -435,7 +463,15 @@ const postsSlice = createSlice({
           }
           return post;
         });
+
         state.bookmarkedPosts = state.bookmarkedPosts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return { ...post, postDescription: action.payload.input };
+          }
+          return post;
+        });
+
+        state.userPosts = state.userPosts.map((post) => {
           if (post.postID === action.payload.postID) {
             return { ...post, postDescription: action.payload.input };
           }
@@ -469,6 +505,18 @@ const postsSlice = createSlice({
           }
           return post;
         });
+
+        state.userPosts = state.userPosts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return {
+              ...post,
+              likes: action.payload.likedPostExists
+                ? post.likes.filter((user) => user !== action.payload.uid)
+                : [...post.likes, action.payload.uid],
+            };
+          }
+          return post;
+        });
       })
 
       // add a comment
@@ -484,6 +532,16 @@ const postsSlice = createSlice({
         });
 
         state.bookmarkedPosts = state.bookmarkedPosts.map((post) => {
+          if (post.postID === action.payload.postID) {
+            return {
+              ...post,
+              comments: [...post.comments, action.payload.newComment],
+            };
+          }
+          return post;
+        });
+
+        state.userPosts = state.userPosts.map((post) => {
           if (post.postID === action.payload.postID) {
             return {
               ...post,

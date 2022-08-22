@@ -21,11 +21,11 @@
     background: var(--secondary-color);
     color: var(--font-color-light);
     border-radius: var(--borderRadius);
-    width: 35rem;
     display: flex;
     flex-direction: column;
     position: relative;
     padding: 0.5rem;
+    width: 50%;
 }
 
 .textArea {
@@ -33,12 +33,60 @@
     font-size: 1rem;
     border: none;
     outline: none;
+    background: inherit;
+    color: var(--font-color-light);
+}
+
+.closeContainer {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    cursor: pointer;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background: rgb(21, 24, 28);
+    opacity: 0.75;
+}
+
+.closeContainer:hover {
+    background: rgb(39, 44, 38);
+}
+
+.close {
+    font-size: 1.2rem;
+    color: white;
+}
+
+.postPhoto {
+    max-height: 20rem;
+    border-radius: 1rem;
+    object-fit: contain;
 }
 
 .btnContainer {
     margin-top: 1rem;
     display: flex;
     gap: 1rem;
+    align-items: center;
     justify-content: end;
 }
 
+.icon {
+    font-size: 1.4rem;
+    margin-right: auto;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+@media screen and (max-width:800px) {
+    .modalContainer {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .modalContainer {
+        width: 80%;
+    }
+}
