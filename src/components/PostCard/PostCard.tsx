@@ -36,6 +36,7 @@ export const PostCard = (prop: Posts) => {
   const { likeLoading } = useAppSelector((store) => store.posts);
   const dispatch = useAppDispatch();
   const [openCommentsSection, setOpenCommentsSection] = useState(false);
+  const [likedPost, setLikedPost] = useState("");
 
   return (
     <div className={styles.postContainer}>
@@ -69,7 +70,7 @@ export const PostCard = (prop: Posts) => {
       )}
 
       <section className={styles.buttons}>
-        {likeLoading ? (
+        {likeLoading && likedPost === postID ? (
           <ReactLoading
             height={"1.3rem"}
             width={"1.3rem"}
@@ -78,7 +79,11 @@ export const PostCard = (prop: Posts) => {
           />
         ) : (
           <span
-            onClick={() => dispatch(handleLike(postID))}
+            onClick={async () => {
+              setLikedPost(postID);
+              await dispatch(handleLike(postID));
+              setLikedPost("");
+            }}
             className="icon-action"
           >
             {likes.some((user) => user === id) ? (

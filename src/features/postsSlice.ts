@@ -49,7 +49,7 @@ export const getPosts = createAsyncThunk(
       const q = query(
         collection(db, "posts"),
         orderBy("createdAt", "desc"),
-        limit(5)
+        limit(3)
       );
       let lastDoc = null;
       const postsSnapShot = await getDocs(q);
