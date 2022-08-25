@@ -22,9 +22,10 @@ import {
 import { useGetAllUser } from "./hooks/useGetAllUser";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { getUserDetails } from "./features/authSlice";
+import { AppLoader } from "./components/AppLoader/AppLoader";
 
 export const App = () => {
-  const { id } = useAppSelector((store) => store.auth);
+  const { id, userDetailsLoading } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
   useAuthObserver();
   useGetAllUser();
@@ -33,9 +34,17 @@ export const App = () => {
     if (id) {
       dispatch(getUserDetails(id));
     }
-  }, [id]);
+  }, [
+    id,
+    performance.getEntriesByType("navigation")[0].toJSON().type === "reload",
+  ]);
 
   const location = useLocation();
+
+  if (userDetailsLoading) {
+    return <AppLoader />;
+  }
+  
   return (
     <div
       className={`${

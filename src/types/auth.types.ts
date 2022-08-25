@@ -27,13 +27,6 @@ export type OtherUsers = {
   portfolioLink: string;
 };
 
-export type AuthState = {
-  userDetails: UserDetails | null;
-  id: string;
-  allUsers: OtherUsers[];
-  selectedUserDetails: UserDetails | null;
-};
-
 export type LoginDetails = {
   email: string;
   password: string;
@@ -45,4 +38,13 @@ export type SignupDetails = {
   firstName: string;
   lastName: string;
   userName: string;
+};
+
+export type AuthState = {
+  userDetails: UserDetails | null;
+  userDetailsLoading: boolean;
+  id: string;
+  allUsers: OtherUsers[];
+  selectedUserDetails: UserDetails | null;
+  selectedUserDetailsLoading: boolean;
 };

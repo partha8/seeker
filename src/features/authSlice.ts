@@ -31,9 +31,11 @@ import { handleBookmark, handleLike } from "./postsSlice";
 
 const initialState: AuthState = {
   userDetails: null,
+  userDetailsLoading: true,
   id: "",
   allUsers: [],
   selectedUserDetails: null,
+  selectedUserDetailsLoading: true,
 };
 
 export const login = createAsyncThunk(
@@ -203,12 +205,20 @@ const authSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      .addCase(getUserDetails.pending, (state) => {
+        state.userDetailsLoading = true;
+      })
       .addCase(getUserDetails.fulfilled, (state, action) => {
         state.userDetails = action.payload;
+        state.userDetailsLoading = false;
       })
 
+      .addCase(getSelectedUserDetails.pending, (state) => {
+        state.selectedUserDetailsLoading = true;
+      })
       .addCase(getSelectedUserDetails.fulfilled, (state, action) => {
         state.selectedUserDetails = action.payload;
+        state.selectedUserDetailsLoading = false;
       })
 
       .addCase(followHandler.fulfilled, (state, action) => {

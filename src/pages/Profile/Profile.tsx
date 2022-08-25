@@ -19,9 +19,8 @@ import {
 import styles from "./profile.module.css";
 
 export const Profile = () => {
-  const { userDetails, selectedUserDetails, id } = useAppSelector(
-    (store) => store.auth
-  );
+  const { userDetails, selectedUserDetails, id, selectedUserDetailsLoading } =
+    useAppSelector((store) => store.auth);
   const { userPosts, latestDoc, newUserPostsLoading, userPostsLoading } =
     useAppSelector((store) => store.posts);
 
@@ -58,6 +57,17 @@ export const Profile = () => {
       setEmptyFeedMessage(false);
     }
   }, [latestDoc]);
+
+  if (selectedUserDetailsLoading) {
+    return (
+      <>
+        <main className="main-container">
+          <h4 className="title">Profile</h4>
+          <h2>Loading...</h2>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
