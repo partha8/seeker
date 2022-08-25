@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader } from "../../components";
 import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";

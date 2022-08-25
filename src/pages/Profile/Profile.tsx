@@ -7,12 +7,9 @@ import { PostCard, PostLoader, ProfileEditModal } from "../../components";
 import {
   followHandler,
   getSelectedUserDetails,
-  getUserDetails,
 } from "../../features/authSlice";
 import {
-  getNewPosts,
   getNewUserPosts,
-  getPosts,
   getUserPosts,
   setLastDoc,
 } from "../../features/postsSlice";

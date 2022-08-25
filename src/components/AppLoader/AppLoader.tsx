@@ -11,4 +11,3 @@ export const AppLoader = () => {
   );
 };
 
-// "circle pulse blue"

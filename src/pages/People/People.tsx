@@ -1,7 +1,6 @@
 import { BsPersonCircle } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Sidebar } from "../../components";
 import { followHandler } from "../../features/authSlice";
 import styles from "./people.module.css";
 
