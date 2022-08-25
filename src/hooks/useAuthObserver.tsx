@@ -10,7 +10,6 @@ export const useAuthObserver = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   useEffect(() => {
-    console.log("auth observer");
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         if (

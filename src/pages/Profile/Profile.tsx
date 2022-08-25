@@ -40,7 +40,6 @@ export const Profile = () => {
       !userPostsLoading &&
       document.body.clientHeight === window.innerHeight
     ) {
-      console.log("inside");
       dispatch(getNewUserPosts({ latestDoc, id: profileID }));
     }
 
