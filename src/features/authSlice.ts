@@ -210,7 +210,7 @@ const authSlice = createSlice({
       .addCase(getSelectedUserDetails.fulfilled, (state, action) => {
         state.selectedUserDetails = action.payload;
       })
-      
+
       .addCase(followHandler.fulfilled, (state, action) => {
         state.userDetails!.following = action.payload.isFollowing
           ? state.userDetails!.following.filter(

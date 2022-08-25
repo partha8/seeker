@@ -15,11 +15,15 @@ export const Feed = () => {
   const dispatch = useAppDispatch();
 
   const [sortBy, setSortBy] = useState("LATEST");
-  const [emptyFeedMessage, setEmptyFeedMessage] = useState(false);
 
   useEffect(() => {
-    dispatch(setLastDoc());
-    dispatch(getPosts(latestDoc));
+    if (
+      auth.userDetails?.following.length !== 0 ||
+      auth.userDetails?.posts.length !== 0
+    ) {
+      dispatch(setLastDoc());
+      dispatch(getPosts(latestDoc));
+    }
   }, []);
 
   const fetchDataHandler = () => {
@@ -38,20 +42,13 @@ export const Feed = () => {
       latestDoc &&
       posts.length !== 0 &&
       !postsLoading &&
-      document.body.clientHeight === window.innerHeight
+      document.body.clientHeight === window.innerHeight &&
+      (auth.userDetails?.following.length !== 0 ||
+        auth.userDetails?.posts.length !== 0)
     ) {
       dispatch(getNewPosts(latestDoc));
     }
 
-    if (
-      sortedPosts.length === 0 &&
-      document.body.clientHeight === window.innerHeight &&
-      latestDoc === undefined
-    ) {
-      setEmptyFeedMessage(true);
-    } else {
-      setEmptyFeedMessage(false);
-    }
   }, [latestDoc]);
 
   return (
@@ -80,7 +77,10 @@ export const Feed = () => {
           </button>
         </section>
 
-        {postsLoading ? (
+        {auth.userDetails?.following.length === 0 &&
+        auth.userDetails?.posts.length === 0 ? (
+          <h4>Start following people already!</h4>
+        ) : postsLoading ? (
           <PostLoader />
         ) : (
           <InfiniteScroll
@@ -101,8 +101,6 @@ export const Feed = () => {
         )}
 
         {newPostsLoading && <PostLoader />}
-
-        {emptyFeedMessage && <h4>Start following people now!</h4>}
       </main>
     </>
   );
