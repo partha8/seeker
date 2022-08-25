@@ -41,10 +41,10 @@ export const App = () => {
 
   const location = useLocation();
 
-  if (userDetailsLoading) {
+  if (userDetailsLoading && id !== null) {
     return <AppLoader />;
   }
-  
+
   return (
     <div
       className={`${
