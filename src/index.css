@@ -21,7 +21,7 @@
   --secondary-color-a6: rgba(31, 31, 31, 0.6);
   --card-color: #2e2e2e;
   --card-color-a55: rgba(46, 46, 46, 0.55);
-  --light-card-color: #F2F2F2;
+  --light-card-color: #f2f2f2;
   --quaternary-color: #333333;
   --hover-color: #363636;
 
@@ -148,8 +148,7 @@ body {
   background: hsla(204, 88%, 53%, 0.2);
 }
 
-
-@media screen and (max-width:1280px) {
+@media screen and (max-width: 1280px) {
   .hover-animation {
     width: 3.25rem;
     height: 3.25rem;
@@ -218,19 +217,19 @@ body {
   z-index: 10;
 }
 
-@media screen and (max-width:1100px) {
+@media screen and (max-width: 1100px) {
   .main-container {
     margin: 0 1rem;
   }
 }
 
-@media screen and (max-width:950px) {
+@media screen and (max-width: 950px) {
   .main-container {
     border-right: none;
   }
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
   .main-container {
     margin: 0 0.5rem;
   }
@@ -239,9 +238,13 @@ body {
 .react-loading-skeleton {
   background: #2e2e2e;
   box-shadow: inset 4px 4px 6px var(--secondary-color),
-    inset -4px -4px 6px var(--secondary-color)
+    inset -4px -4px 6px var(--secondary-color);
 }
 
 .react-loading-skeleton::after {
-  background-image: linear-gradient(90deg, var(--card-color), rgba(29, 156, 240, 0.776), var(--card-color))
+  background-image: linear-gradient(90deg,
+      var(--card-color),
+      rgba(29, 156, 240, 0.776),
+      var(--card-color));
+
 }

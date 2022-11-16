@@ -1,25 +1,26 @@
 .filterSection {
-    display: flex;
-    gap: 10px;
-    justify-content: end;
-    margin: 1rem 0 0;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  margin: 1rem 0 0;
+  flex-wrap: wrap;
 }
 
 .filterbtn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.4rem 0.8rem;
-    border-radius: var(--borderRadius);
-    color: var(--clr-white);
-    width: fit-content;
-    text-align: center;
-    font-size: 1rem;
-    background: var(--card-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--borderRadius);
+  color: var(--clr-white);
+  width: fit-content;
+  text-align: center;
+  font-size: 1rem;
+  background: var(--card-color);
+  
 }
 
 .active {
-    color: var(--primary-color);
-    background: var(--secondary-color);
+  color: var(--primary-color);
+  background: var(--secondary-color);
 }
