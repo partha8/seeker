@@ -77,6 +77,11 @@ And now this application runs in your local machine too.
 - Relevant Toast Messages on success or error of certain functionalities
 
 ---
+# Upcoming features
+- Notifications 
+- Send DMs to other users
+- Improved performances 
+- 
 
 ## 👨‍💻 Connect with me
 
