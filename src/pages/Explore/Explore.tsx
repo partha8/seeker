@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader } from "../../components";
-import { getNewPosts, getPosts, setLastDoc } from "../../features/postsSlice";
+import {setLastDoc } from "../../features/postsSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { getPosts, getNewPosts } from "../../services/postServices";
 
 export const Explore = () => {
   const { postsLoading, posts, latestDoc, newPostsLoading } = useAppSelector(

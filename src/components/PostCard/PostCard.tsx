@@ -7,10 +7,10 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { DropDown } from "../DropDown/DropDown";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { handleLike } from "../../features/postsSlice";
 import { CommentsSection } from "../CommentsContainer/CommentsSection";
 import { NavLink } from "react-router-dom";
 import ReactLoading from "react-loading";
+import { handleLike } from "../../services/postServices";
 
 export const PostCard = (prop: Posts) => {
   const {

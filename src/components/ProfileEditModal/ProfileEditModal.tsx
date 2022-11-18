@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import styles from "./profile-edit-modal.module.css";
 import { MdOutlineFileUpload } from "react-icons/md";
-import { updateProfileDetails } from "../../features/authSlice";
+import { updateProfileDetails } from "../../services/authServices";
 
 type Props = {
   showModal: boolean;

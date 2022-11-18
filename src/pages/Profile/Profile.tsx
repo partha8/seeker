@@ -4,15 +4,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader, ProfileEditModal } from "../../components";
-import {
-  followHandler,
-  getSelectedUserDetails,
-} from "../../features/authSlice";
-import {
-  getNewUserPosts,
-  getUserPosts,
-  setLastDoc,
-} from "../../features/postsSlice";
+import { setLastDoc } from "../../features/postsSlice";
+import { followHandler, getSelectedUserDetails } from "../../services/authServices";
+import { getNewUserPosts, getUserPosts } from "../../services/postServices";
 import styles from "./profile.module.css";
 
 export const Profile = () => {

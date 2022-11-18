@@ -2,8 +2,8 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { signup } from "../../features/authSlice";
 import { db } from "../../firebase.config";
+import { signup } from "../../services/authServices";
 import styles from "./auth.module.css";
 
 export const Signup = () => {

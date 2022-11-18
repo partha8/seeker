@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  addNewPost,
-  editSelectedPost,
   setEditPost,
   setPostModal,
 } from "../../features/postsSlice";
@@ -11,6 +9,7 @@ import styles from "./input.module.css";
 import { MdClose } from "react-icons/md";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { toast } from "react-toastify";
+import { editSelectedPost, addNewPost } from "../../services/postServices";
 
 export const InputModal = () => {
   const [input, setInput] = useState("");

@@ -3,7 +3,8 @@ import { BsPersonCircle } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { MdSend } from "react-icons/md";
 import styles from "./comments-container.module.css";
-import { addComment } from "../../features/postsSlice";
+import { addComment } from "../../services/postServices";
+
 
 type Prop = {
   comments: {

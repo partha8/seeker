@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./auth.module.css";
 import { useAppDispatch } from "../../app/hooks";
-import { login } from "../../features/authSlice";
+import { login } from "../../services/authServices";
 
 export const Login = () => {
   const userRef = useRef<any>(null);

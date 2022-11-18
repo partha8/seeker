@@ -4,11 +4,10 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Posts } from "../../types/posts.types";
 import {
-  deletePost,
-  handleBookmark,
   setEditPost,
   setPostModal,
 } from "../../features/postsSlice";
+import { deletePost, handleBookmark } from "../../services/postServices";
 
 export const DropDown = (prop: Posts) => {
   const [dropdown, setDropdown] = useState(false);

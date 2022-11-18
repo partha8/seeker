@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader } from "../../components";
-import { getBookmarkedPosts } from "../../features/postsSlice";
+import { getBookmarkedPosts } from "../../services/postServices";
+
 
 export const Bookmark = () => {
   const { bookmarkedPosts, bookmarkedPostsLoading } = useAppSelector(

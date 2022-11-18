@@ -21,8 +21,8 @@ import {
 } from "./components";
 import { useGetAllUser } from "./hooks/useGetAllUser";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { getUserDetails } from "./features/authSlice";
 import { AppLoader } from "./components/AppLoader/AppLoader";
+import { getUserDetails } from "./services/authServices";
 
 export const App = () => {
   const { id, userDetailsLoading } = useAppSelector((store) => store.auth);
