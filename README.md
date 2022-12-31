@@ -8,6 +8,8 @@
   <br>
 </p>
 
+> Do star the repo!
+
 #### Stack Used
 
 - React
