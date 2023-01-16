@@ -27,6 +27,11 @@ export const Login = () => {
     dispatch(login({ email, password }));
   };
 
+  const handleGuest = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    dispatch(login({ email: "guest@guest123.com", password: "123456" }));
+  };
+
   return (
     <section className="flex-center-container">
       <section className={styles.formBox}>
@@ -38,7 +43,7 @@ export const Login = () => {
           {errMsg}
         </p>
         <h2>Sign In</h2>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div className={styles.inputBox}>
             <input
               type="email"
@@ -67,7 +72,20 @@ export const Login = () => {
             </label>
           </div>
 
-          <button className="btn">Sign In</button>
+          <button onClick={handleSubmit} className="btn">
+            Sign In
+          </button>
+          <button
+            onClick={handleGuest}
+            style={{
+              backgroundColor: "transparent",
+              outline: " 1px solid var(--primary-color)",
+              color: "var(--primary-color)",
+            }}
+            className="btn"
+          >
+            Guest Login
+          </button>
         </form>
 
         <br />
