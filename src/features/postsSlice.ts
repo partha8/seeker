@@ -1,7 +1,19 @@
-import {  createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { PostState } from "../types/posts.types";
-import { addComment, addNewPost, deletePost, editSelectedPost, getBookmarkedPosts, getNewPosts, getNewUserPosts, getPosts, getUserPosts, handleBookmark, handleLike } from "../services/postServices";
+import {
+  addComment,
+  addNewPost,
+  deletePost,
+  editSelectedPost,
+  getBookmarkedPosts,
+  getNewPosts,
+  getNewUserPosts,
+  getPosts,
+  getUserPosts,
+  handleBookmark,
+  handleLike,
+} from "../services/postServices";
 import { updateProfileDetails } from "../services/authServices";
 
 const initialState: PostState = {
@@ -80,7 +92,9 @@ const postsSlice = createSlice({
       })
       // add a new post
       .addCase(addNewPost.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.posts = action.payload;
+        
         state.postModal = false;
       })
 

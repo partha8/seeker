@@ -8,6 +8,8 @@ import { getPosts, getNewPosts } from "../../services/postServices";
 import styles from "./feed.module.css";
 
 export const Feed = () => {
+  const [innerHeight, setInnerHeight] = useState<Number>();
+
   const { postsLoading, posts, latestDoc, newPostsLoading } = useAppSelector(
     (store) => store?.posts
   );
@@ -27,6 +29,10 @@ export const Feed = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setInnerHeight(window.innerHeight + 50);
+  }, [window.innerHeight]);
+
   const fetchDataHandler = () => {
     dispatch(getNewPosts(latestDoc));
   };
@@ -43,14 +49,14 @@ export const Feed = () => {
       latestDoc &&
       posts.length !== 0 &&
       !postsLoading &&
-      document.body.clientHeight === window.innerHeight &&
+      innerHeight &&
+      document.body.clientHeight < innerHeight &&
       (auth.userDetails?.following.length !== 0 ||
         auth.userDetails?.posts.length !== 0)
     ) {
       dispatch(getNewPosts(latestDoc));
     }
-
-  }, [latestDoc]);
+  }, [latestDoc, innerHeight && document.body.clientHeight < innerHeight]);
 
   return (
     <>
