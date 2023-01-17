@@ -53,6 +53,12 @@ const authSlice = createSlice({
             )
           : [...state.userDetails!.following, action.payload.personID];
 
+        state.selectedUserDetails!.following = action.payload.isFollowing
+          ? state.selectedUserDetails!.following.filter(
+              (user) => user !== action.payload.personID
+            )
+          : [...state.selectedUserDetails!.following, action.payload.personID];
+
         state.allUsers = state.allUsers.map((user) => {
           if (user.id === action.payload.personID) {
             return {
