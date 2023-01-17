@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  AuthState,
-  OtherUsers,
-  UserDetails,
-} from "../types/auth.types";
+import { AuthState, OtherUsers, UserDetails } from "../types/auth.types";
 import { handleBookmark, handleLike } from "../services/postServices";
-import { getUserDetails, getSelectedUserDetails, followHandler, updateProfileDetails } from "../services/authServices";
-
+import {
+  getUserDetails,
+  getSelectedUserDetails,
+  followHandler,
+  updateProfileDetails,
+} from "../services/authServices";
 
 const initialState: AuthState = {
   userDetails: null,
@@ -98,6 +98,7 @@ const authSlice = createSlice({
             photo: photo ? photo : state.userDetails?.photo,
           } as UserDetails;
           state.userDetails = details;
+          state.selectedUserDetails = details;
         }
       );
   },
