@@ -94,7 +94,7 @@ const postsSlice = createSlice({
       .addCase(addNewPost.fulfilled, (state, action) => {
         console.log(action.payload);
         state.posts = action.payload;
-        
+
         state.postModal = false;
       })
 
@@ -234,6 +234,18 @@ const postsSlice = createSlice({
         updateProfileDetails.fulfilled,
         (state, { payload: { displayName, userName, id, photo } }) => {
           state.posts = state.posts.map((post) => {
+            if (post.uid === id) {
+              return {
+                ...post,
+                displayName,
+                userName,
+                photo: photo ? photo : post.photo,
+              };
+            }
+            return post;
+          });
+
+          state.userPosts = state.userPosts.map((post) => {
             if (post.uid === id) {
               return {
                 ...post,

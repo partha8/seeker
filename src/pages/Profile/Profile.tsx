@@ -5,7 +5,10 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PostCard, PostLoader, ProfileEditModal } from "../../components";
 import { setLastDoc } from "../../features/postsSlice";
-import { followHandler, getSelectedUserDetails } from "../../services/authServices";
+import {
+  followHandler,
+  getSelectedUserDetails,
+} from "../../services/authServices";
 import { getNewUserPosts, getUserPosts } from "../../services/postServices";
 import styles from "./profile.module.css";
 
