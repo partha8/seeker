@@ -10,6 +10,7 @@ export type UserDetails = {
   bookmarkedPosts: string[];
   bio: string;
   portfolioLink: string;
+  id: string;
 };
 
 export type OtherUsers = {
