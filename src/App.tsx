@@ -25,7 +25,9 @@ import { AppLoader } from "./components/AppLoader/AppLoader";
 import { getUserDetails } from "./services/authServices";
 
 export const App = () => {
-  const { id, userDetailsLoading } = useAppSelector((store) => store.auth);
+  const { id, userDetailsLoading, userDetails } = useAppSelector(
+    (store) => store.auth
+  );
   const dispatch = useAppDispatch();
   useAuthObserver();
   useGetAllUser();
@@ -41,7 +43,7 @@ export const App = () => {
 
   const location = useLocation();
 
-  if (userDetailsLoading && id !== null) {
+  if (userDetailsLoading && userDetails && id !== null) {
     return <AppLoader />;
   }
 

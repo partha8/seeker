@@ -51,8 +51,8 @@ export const signup = createAsyncThunk(
       });
 
       await setDoc(doc(db, "users", auth.currentUser!.uid), {
-        displayName: auth.currentUser!.displayName,
-        email: auth.currentUser!.email,
+        displayName: `${firstName} ${lastName}`,
+        email: email,
         userName: userName,
         photo: "",
         followers: [],
