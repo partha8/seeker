@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { auth } from "../firebase.config";
 import { setUser } from "../features/authSlice";
 import { useAppDispatch } from "../app/hooks";
+import { getUserDetails } from "../services/authServices";
 
 export const useAuthObserver = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export const useAuthObserver = () => {
           navigate(location.pathname);
         }
         dispatch(setUser(user.uid));
+        dispatch(getUserDetails(user.uid));
       } else {
         dispatch(setUser(null));
       }

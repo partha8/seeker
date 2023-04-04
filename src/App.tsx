@@ -32,18 +32,18 @@ export const App = () => {
   useAuthObserver();
   useGetAllUser();
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getUserDetails(id));
-    }
-  }, [
-    id,
-    performance.getEntriesByType("navigation")[0].toJSON().type === "reload",
-  ]);
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(getUserDetails(id));
+  //   }
+  // }, [
+  //   id,
+  //   performance.getEntriesByType("navigation")[0].toJSON().type === "reload",
+  // ]);
 
   const location = useLocation();
 
-  if (userDetailsLoading && userDetails && id !== null) {
+  if (userDetailsLoading && id !== null) {
     return <AppLoader />;
   }
 

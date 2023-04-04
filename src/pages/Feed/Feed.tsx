@@ -63,27 +63,6 @@ export const Feed = () => {
       <main className="main-container">
         <h4 className="title">Home</h4>
 
-        <section className={styles.filterSection}>
-          <button
-            onClick={() =>
-              sortBy === "LATEST" ? setSortBy("OLDEST") : setSortBy("LATEST")
-            }
-            className={`${styles.filterbtn} ${
-              (sortBy === "LATEST" || sortBy === "OLDEST") && styles.active
-            } `}
-          >
-            {sortBy === "LATEST" ? "Oldest" : "Latest"}
-          </button>
-          <button
-            onClick={() => setSortBy("TRENDING")}
-            className={`${styles.filterbtn} ${
-              sortBy === "TRENDING" && styles.active
-            }`}
-          >
-            Trending
-          </button>
-        </section>
-
         {auth.userDetails?.following.length === 0 &&
         auth.userDetails?.posts.length === 0 ? (
           <h4>Start following people already!</h4>
